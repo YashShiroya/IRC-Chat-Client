@@ -156,10 +156,10 @@ char * nextword(char * response){
 	printf("nw\n");
 	char * res = (char*) g_malloc(sizeof(char) * 400);
 	res = strdup(response);
-	printf("response %s\n", response);
+	printf("res %s\n", response);
 	int c;int i = 0;
 	memset(word, 0, MAXWORD);
-	while((c = *res) != '\0') {
+	while((c = *response) != '\r') {
 	    if(c != '\n' && c != '\r') {
 	        word[i++] = c;
 	    }
