@@ -159,18 +159,18 @@ char * nextword(char * response){
 	printf("res %s\n", res);
 	int c;int i = 0;
 	memset(word, 0, MAXWORD);
-	while((c = *res) != '\0') {
+	while((c = *response) != '\0') {
 	    if(c != '\n' && c != '\r') {
 	        word[i++] = c;
 	    }
 	    else if(c == '\r') {
-	    	res++;
+	    	response++;
 	    	//printf("word %s\n", word);
 	        if(i > 0) {
 				return word;
 			}
 	   }
-	   res++;
+	   response++;
 	}
 	return NULL;
 }
