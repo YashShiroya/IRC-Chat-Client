@@ -156,7 +156,7 @@ char * nextword(char * response){
 	printf("nw\n");
 	char * res = (char*) g_malloc(sizeof(char) * 400);
 	res = strdup(response);
-	printf("res %s\n", res);
+	//printf("res %s\n", res);
 	int c;int i = 0;
 	memset(word, 0, MAXWORD);
 	while((c = *response) != '\0') {
@@ -164,12 +164,13 @@ char * nextword(char * response){
 	        word[i++] = c;
 	    }
 	    else if(c == '\r') {
-	    	response++;
+	    	//response++;
 	    	//printf("word %s\n", word);
 	        if(i > 0) {
 				return word;
 			}
 	   }
+	   printf("c %c\n", c);
 	   response++;
 	}
 	return NULL;
