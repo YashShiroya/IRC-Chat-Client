@@ -194,7 +194,7 @@ printf("1\n");
         gtk_list_store_set (GTK_LIST_STORE (list_rooms),     &iter,
                             0, temp,
 	                    -1);
-	g_free (temp);
+	//g_free (temp);
 	}
 	
     /* Add some messages to the window */
