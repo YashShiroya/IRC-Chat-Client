@@ -175,15 +175,18 @@ char * nextword(char * response){
 //______________________________________________________
 //________________________________________________________________________________________________________
 void update_list_rooms() {
+printf("1\n");
     GtkTreeIter iter;
-    int i;
+    int i = 0;
 	char * r = (char*)g_malloc(sizeof(char) * 400);
 	char * temp = (char*) g_malloc(sizeof(char) * 100);
 	char response[ MAX_RESPONSE ];
 	
 	sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
 	r = strdup(response);
+	printf("r %s\n",r);
 	while((temp = strdup(nextword(r))) != NULL) {
+		printf("%d\n", i++);
 		//gchar *msg = g_strdup_printf ("Room %d", i);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_rooms),     &iter,
