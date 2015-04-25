@@ -148,14 +148,52 @@ void create_room(char * room_name) {
 	}
 }
 
+
+#define MAXWORD 200
+int wordLength = 0;
+char word[MAXWORD];  
+char * nextword(char * response){
+	char * res = (char*) g_malloc(sizeof(char) * 400);
+	res = strdup(response);
+	int c;int i = 0;
+	memset(word, 0, MAXWORD);
+	while((c = *res) != '\0') {
+	    if(c != '\n' && c != '\r') {
+	        word[i++] = c;
+	    }
+	    else if(c == '\r') {
+	    	res++;
+	        if(i > 0) {
+			return word;
+		}
+	   }
+	   res++;
+	}
+	return NULL;
+}
+
 //______________________________________________________
 //________________________________________________________________________________________________________
 void update_list_rooms() {
     GtkTreeIter iter;
     int i;
-
+	char * r = (char*)g_malloc(sizeof(char) * 400);
+	char * temp = (char*) g_malloc(sizeof(char) * 100);
+	char response[ MAX_RESPONSE ];
+	
+	sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
+	r = strdup(response);
+	while((temp = strdup(nextword(r))) != NULL) {
+		//gchar *msg = g_strdup_printf ("Room %d", i);
+        gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
+        gtk_list_store_set (GTK_LIST_STORE (list_rooms),     &iter,
+                            0, temp,
+	                    -1);
+	g_free (temp);
+	}
+	
     /* Add some messages to the window */
-    for (i = 0; i < 10; i++) {
+    /*for (i = 0; i < 10; i++) {
         gchar *msg = g_strdup_printf ("Room %d", i);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_rooms), 
@@ -163,7 +201,9 @@ void update_list_rooms() {
                             0, msg,
 	                    -1);
 	g_free (msg);
-    }
+    }*/
+    
+    
 }
 
 void update_list_users() {
@@ -175,9 +215,7 @@ void update_list_users() {
         gchar *usr = g_strdup_printf ("User %d", i);
         gtk_list_store_append (GTK_LIST_STORE (list_users), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_users), 
-	                    &iter,
-                            0, usr,
-	                    -1);
+	                    &iter, 0, usr, -1);
 	g_free (usr);
     }
 }
@@ -273,6 +311,11 @@ static void create_room_callback(GtkWidget * entry) {
 	create_room(room_name);
 }
 
+static void listrooms_callback() {
+
+		update_list_rooms();
+}
+
 
 /*static void enter_callback( GtkWidget *widget,
                             GtkWidget *entry )
@@ -362,6 +405,7 @@ int main( int   argc,
     GtkWidget *msg_frame;
     GtkWidget *v_box_msg;
     GtkWidget *create_e;
+    GtkWidget *listrooms_b;
     
     //GTK Pointer
     
@@ -593,6 +637,16 @@ int main( int   argc,
     g_signal_connect_swapped (leave_b, "clicked",
 			      G_CALLBACK (gtk_widget_destroy),										//Change this callback
 			      window);													
+    gtk_box_pack_start (GTK_BOX (v_bbox2), leave_b, TRUE, TRUE, 0);
+    gtk_widget_set_can_default (leave_b, TRUE);
+    gtk_widget_grab_default (leave_b);
+    gtk_widget_set_size_request (GTK_WIDGET (leave_b), 250, 40);
+    gtk_widget_show (leave_b);
+    
+    listrooms_b = gtk_button_new_with_label ("List Rooms");
+    g_signal_connect_swapped (leave_b, "clicked",
+			      G_CALLBACK (listrooms_callback),										//Change this callback
+			      NULL);													
     gtk_box_pack_start (GTK_BOX (v_bbox2), leave_b, TRUE, TRUE, 0);
     gtk_widget_set_can_default (leave_b, TRUE);
     gtk_widget_grab_default (leave_b);
