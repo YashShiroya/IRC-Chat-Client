@@ -648,7 +648,7 @@ int main( int   argc,
     gtk_widget_show (leave_b);
     
     listrooms_b = gtk_button_new_with_label ("List Rooms");
-    g_signal_connect (leave_b, "clicked",
+    g_signal_connect (listrooms_b, "clicked",
 			      G_CALLBACK (listrooms_callback),										//Change this callback
 			      NULL);													
     gtk_box_pack_start (GTK_BOX (v_bbox2), listrooms_b, TRUE, TRUE, 0);
