@@ -183,6 +183,7 @@ printf("1\n");
     int i = 0;
 	char * r; //= (char*)g_malloc(sizeof(char) * 400);
 	char * temp = (char*) g_malloc(sizeof(char) * 100);
+	
 	char response[ MAX_RESPONSE ];
 	
 	sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
@@ -319,11 +320,11 @@ static void create_room_callback(GtkWidget * entry) {
 
 static void listrooms_callback() {
 		printf("lr callback\n");
-		//update_list_rooms();
-		char response[ MAX_RESPONSE ];
+		update_list_rooms();
+		//char response[ MAX_RESPONSE ];
 	
-	sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
-	printf("response lr %s\n",response);
+	//sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
+	//printf("response lr %s\n",response);
 }
 
 
