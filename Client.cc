@@ -153,6 +153,7 @@ void create_room(char * room_name) {
 int wordLength = 0;
 char word[MAXWORD];  
 char * nextword(char * response){
+	printf("nw\n");
 	char * res = (char*) g_malloc(sizeof(char) * 400);
 	res = strdup(response);
 	int c;int i = 0;
