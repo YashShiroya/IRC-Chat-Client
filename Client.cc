@@ -321,17 +321,32 @@ static void create_room_callback(GtkWidget * entry) {
 
 static void listrooms_callback() {
 		printf("lr callback\n");
-		int i = 0;
+		
 		//update_list_rooms();
 		char response[ MAX_RESPONSE ];
 		sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
-	//printf("response lr %s\n",response);
-		char * t = (char*)g_malloc(sizeof(char) * 100);
-		while((t = nextword(response)) != NULL) {
-			printf("r%d: %s\n",++i, t);
-		}
-	//sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
-	//printf("response lr %s\n",response);
+		
+		char * t; char * res;
+		//nextword
+		res = strdup(response);
+		int c; int i = 0;
+	
+	while((c = *res) != '\0') {
+	    if(c != '\n' && c != '\r') {
+	        word[i++] = c;
+	    }
+	    else if(c == '\r') {
+	    	res++;
+	        if(i > 0) {
+				 t = strdup(word);
+				memset(word, 0, MAXWORD);
+				printf("room %s\n",t);
+				
+			}
+	   }
+	   res++;
+	}
+	
 }
 
 
