@@ -339,6 +339,7 @@ static void listrooms_callback() {
 	    	res++;
 	        if(i > 0) {
 	        	word[i] = '\0';
+	        	i = 0;
 				 t = strdup(word);
 				printf("room %s\n",t);
 				
