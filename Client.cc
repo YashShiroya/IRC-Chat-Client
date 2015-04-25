@@ -344,7 +344,7 @@ static void listrooms_callback() {
 				
 			}
 	   }
-	   printf("c %c\n",c);
+	   //printf("c %c\n",c);
 	   res++;
 	}
 	
