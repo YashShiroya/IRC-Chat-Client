@@ -500,7 +500,7 @@ int main( int   argc,
     if(login_check == 0) {
     
     list_rooms = gtk_list_store_new (1, G_TYPE_STRING);
-    update_list_rooms();
+    //update_list_rooms();
     
     list_r = create_list ("Rooms", list_rooms);
     gtk_table_attach_defaults (GTK_TABLE (table), list_r, 10, 14, 0, 4);
@@ -508,7 +508,7 @@ int main( int   argc,
     
     //List of users
     list_users = gtk_list_store_new (1, G_TYPE_STRING);
-    update_list_users();
+    //update_list_users();
     
     list_u = create_list ("Users", list_users);
     gtk_table_attach_defaults (GTK_TABLE (table), list_u, 0, 4, 5, 12);
