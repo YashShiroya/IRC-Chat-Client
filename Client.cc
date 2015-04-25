@@ -181,24 +181,34 @@ char * nextword(char * response){
 void update_list_rooms() {
 printf("1\n");
     GtkTreeIter iter;
-    int i = 0;
-	char * r; //= (char*)g_malloc(sizeof(char) * 400);
-	char * temp = (char*) g_malloc(sizeof(char) * 100);
+    //nt i = 0;
+		char response[ MAX_RESPONSE ];
+		sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
+		
+		char * t; char * res;
+		//nextword
+		res = strdup(response);
+		int c; int i = 0;
 	
-	char response[ MAX_RESPONSE ];
-	
-	sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
-	r = strdup(response);
-	printf("r %s\n",r);
-	while((temp = nextword(r)) != NULL) {
-		printf("%d\n", i++);
-		//gchar *msg = g_strdup_printf ("Room %d", i);
-        gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (list_rooms),     &iter,
-                            0, temp,
-	                    -1);
-	//g_free (temp);
+	while((c = *res) != '\0') {
+	    if(c != '\n' && c != '\r') {
+	        word[i++] = c;
+	    }
+	    else if(c == '\r') {
+	    	res++;
+	        if(i > 0) {
+	        	word[i] = '\0';
+	        	i = 0;
+				t = strdup(word);
+				gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
+        		gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, t, -1);
+				
+			}
+	   }
+	   //printf("c %c\n",c);
+	   res++;
 	}
+
 	
     /* Add some messages to the window */
     /*for (i = 0; i < 10; i++) {
@@ -322,32 +332,8 @@ static void create_room_callback(GtkWidget * entry) {
 static void listrooms_callback() {
 		printf("lr callback\n");
 		
-		//update_list_rooms();
-		char response[ MAX_RESPONSE ];
-		sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
+		update_list_rooms();
 		
-		char * t; char * res;
-		//nextword
-		res = strdup(response);
-		int c; int i = 0;
-	
-	while((c = *res) != '\0') {
-	    if(c != '\n' && c != '\r') {
-	        word[i++] = c;
-	    }
-	    else if(c == '\r') {
-	    	res++;
-	        if(i > 0) {
-	        	word[i] = '\0';
-	        	i = 0;
-				 t = strdup(word);
-				printf("room %s\n",t);
-				
-			}
-	   }
-	   //printf("c %c\n",c);
-	   res++;
-	}
 	
 }
 
