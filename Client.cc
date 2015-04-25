@@ -322,7 +322,7 @@ static void create_room_callback(GtkWidget * entry) {
 static void listrooms_callback() {
 		printf("lr callback\n");
 		
-		//update_list_rooms();
+		update_list_rooms();
 		char response[ MAX_RESPONSE ];
 		sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
 		
@@ -344,6 +344,7 @@ static void listrooms_callback() {
 				
 			}
 	   }
+	   printf("c %c\n",c);
 	   res++;
 	}
 	
