@@ -164,12 +164,12 @@ char * nextword(char * response){
 	        word[i++] = c;
 	    }
 	    else if(c == '\r') {
-	    	res++;
+	    	response++;
 	        if(i > 0) {
 			return word;
 		}
 	   }
-	   res++;
+	   response++;
 	}
 	return NULL;
 }
