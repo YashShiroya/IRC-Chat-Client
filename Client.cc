@@ -316,7 +316,7 @@ static void create_room_callback(GtkWidget * entry) {
 }
 
 static void listrooms_callback() {
-
+		printf("lr callback\n");
 		update_list_rooms();
 }
 
