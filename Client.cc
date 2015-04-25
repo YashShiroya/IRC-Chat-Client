@@ -647,11 +647,11 @@ int main( int   argc,
     g_signal_connect_swapped (leave_b, "clicked",
 			      G_CALLBACK (listrooms_callback),										//Change this callback
 			      NULL);													
-    gtk_box_pack_start (GTK_BOX (v_bbox2), leave_b, TRUE, TRUE, 0);
-    gtk_widget_set_can_default (leave_b, TRUE);
-    gtk_widget_grab_default (leave_b);
-    gtk_widget_set_size_request (GTK_WIDGET (leave_b), 250, 40);
-    gtk_widget_show (leave_b);
+    gtk_box_pack_start (GTK_BOX (v_bbox2), listrooms_b, TRUE, TRUE, 0);
+    gtk_widget_set_can_default (listrooms_b, TRUE);
+    gtk_widget_grab_default (listrooms_b);
+    gtk_widget_set_size_request (GTK_WIDGET (listrooms_b), 250, 40);
+    gtk_widget_show (listrooms_b);
     
    //______________________________
    
@@ -675,7 +675,7 @@ int main( int   argc,
     
     
     gtk_table_attach_defaults(GTK_TABLE (table), theme_frame, 12, 14, 10, 12);
-    gtk_table_attach_defaults(GTK_TABLE (table), frame_door, 10, 14, 6, 8);
+    gtk_table_attach_defaults(GTK_TABLE (table), frame_door, 10, 14, 6, 9);
     gtk_table_attach_defaults (GTK_TABLE (table), msg_frame, 4, 10, 7, 12);
      
     GtkWidget *view;
