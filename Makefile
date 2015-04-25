@@ -1,5 +1,5 @@
 
-goal: hello entry panned radio TestIRCServer timer git
+goal: hello entry panned radio TestIRCServer timer Client git
 
 hello: hello.c
 	gcc hello.c -o hello `pkg-config --cflags --libs gtk+-2.0`

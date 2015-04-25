@@ -22,3 +22,6 @@
  create mode 100644 talk-client.c
  create mode 100755 timer
  create mode 100644 timer.c
+[master 02fec58] Make IRCclient
+ 2 files changed, 24 insertions(+)
+ delete mode 100755 Client
