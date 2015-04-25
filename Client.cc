@@ -165,10 +165,10 @@ char * nextword(char * response){
 	    }
 	    else if(c == '\r') {
 	    	res++;
-	    	printf("word %s\n", word);
+	    	//printf("word %s\n", word);
 	        if(i > 0) {
-			return word;
-		}
+				return word;
+			}
 	   }
 	   res++;
 	}
@@ -320,9 +320,15 @@ static void create_room_callback(GtkWidget * entry) {
 
 static void listrooms_callback() {
 		printf("lr callback\n");
-		update_list_rooms();
-		//char response[ MAX_RESPONSE ];
-	
+		int i = 0;
+		//update_list_rooms();
+		char response[ MAX_RESPONSE ];
+		sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
+	//printf("response lr %s\n",response);
+		char * t = (char*)g_malloc(sizeof(char) * 100);
+		while((t = nextword(response)) != NULL) {
+			printf("r%d: %s\n",++i, t);
+		}
 	//sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
 	//printf("response lr %s\n",response);
 }
