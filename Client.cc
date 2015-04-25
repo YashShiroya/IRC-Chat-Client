@@ -152,34 +152,10 @@ void create_room(char * room_name) {
 #define MAXWORD 200
 int wordLength = 0;
 char word[MAXWORD];  
-char * nextword(char * response){
-	printf("nw\n");
-	char * res = (char*) g_malloc(sizeof(char) * 400);
-	res = strdup(response);
-	//printf("res %s\n", res);
-	int c;int i = 0;
-	memset(word, 0, MAXWORD);
-	while((c = *response) != '\0') {
-	    if(c != '\n' && c != '\r') {
-	        word[i++] = c;
-	    }
-	    else if(c == '\r') {
-	    	//response++;
-	    	//printf("word %s\n", word);
-	        if(i > 0) {
-				return word;
-			}
-	   }
-	   printf("c %c\n", c);
-	   response++;
-	}
-	return NULL;
-}
 
-//______________________________________________________
 //________________________________________________________________________________________________________
 void update_list_rooms() {
-printf("1\n");
+
     GtkTreeIter iter;
     //nt i = 0;
 		char response[ MAX_RESPONSE ];
@@ -209,18 +185,6 @@ printf("1\n");
 	   res++;
 	}
 
-	
-    /* Add some messages to the window */
-    /*for (i = 0; i < 10; i++) {
-        gchar *msg = g_strdup_printf ("Room %d", i);
-        gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (list_rooms), 
-	                    &iter,
-                            0, msg,
-	                    -1);
-	g_free (msg);
-    }*/
-    
     
 }
 
@@ -303,7 +267,7 @@ static GtkWidget *create_text( const char * initialText )
 				   GTK_POLICY_AUTOMATIC);
 
    gtk_container_add (GTK_CONTAINER (scrolled_window), view);
-   insert_text (buffer, initialText);
+   //insert_text (buffer, initialText);
 
    gtk_widget_show_all (scrolled_window);
 
