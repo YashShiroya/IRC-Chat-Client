@@ -156,6 +156,7 @@ char * nextword(char * response){
 	printf("nw\n");
 	char * res = (char*) g_malloc(sizeof(char) * 400);
 	res = strdup(response);
+	printf("response %s\n", response);
 	int c;int i = 0;
 	memset(word, 0, MAXWORD);
 	while((c = *res) != '\0') {
@@ -186,7 +187,7 @@ printf("1\n");
 	sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
 	r = strdup(response);
 	printf("r %s\n",r);
-	while((temp = strdup(nextword(r))) != NULL) {
+	while((temp = nextword(r)) != NULL) {
 		printf("%d\n", i++);
 		//gchar *msg = g_strdup_printf ("Room %d", i);
         gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
