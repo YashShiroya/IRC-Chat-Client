@@ -267,7 +267,7 @@ static GtkWidget *create_text( const char * initialText )
 				   GTK_POLICY_AUTOMATIC);
 
    gtk_container_add (GTK_CONTAINER (scrolled_window), view);
-   //insert_text (buffer, initialText);
+   insert_text (buffer, initialText);
 
    gtk_widget_show_all (scrolled_window);
 
@@ -295,7 +295,7 @@ static void create_room_callback(GtkWidget * entry) {
 
 static void listrooms_callback() {
 		printf("lr callback\n");
-		
+		gtk_list_store_clear (list_rooms);
 		update_list_rooms();
 		
 	
