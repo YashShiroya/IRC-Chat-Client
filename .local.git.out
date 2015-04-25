@@ -25,3 +25,6 @@
 [master 02fec58] Make IRCclient
  2 files changed, 24 insertions(+)
  delete mode 100755 Client
+[master 96ad31d] Make IRCclient
+ 3 files changed, 4 insertions(+), 1 deletion(-)
+ create mode 100755 Client

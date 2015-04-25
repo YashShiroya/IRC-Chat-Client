@@ -21,6 +21,7 @@
 
 GtkListStore * list_rooms;
 GtkListStore * list_users;
+ 
 gint login_check = 0;
 
 typedef struct
@@ -32,7 +33,6 @@ typedef struct
 //Networking____________________________________________
 
 char * host = (char*) g_malloc(sizeof(char) * 100);
-
 char * user = (char*) g_malloc(sizeof(char) * 100);
 char * password = (char*) g_malloc(sizeof(char) * 100);
 char * sport = (char*) g_malloc(sizeof(char) * 100);
@@ -128,10 +128,20 @@ void printUsage()
 	exit(1);
 }
 
-void add_user(char * user, char * password) {
+void add_user() {
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
 	sendCommand(host, port, "ADD-USER", user, password, "", response);
+	
+	if (!strcmp(response,"OK\r\n")) {
+		//printf("User %s added\n", user);
+	}
+}
+
+void create_room(char * room_name) {
+	// Try first to add user in case it does not exist.
+	char response[ MAX_RESPONSE ];
+	sendCommand(host, port, "CREATE-ROOM", user, password, room_name, response);
 	
 	if (!strcmp(response,"OK\r\n")) {
 		//printf("User %s added\n", user);
@@ -251,9 +261,16 @@ static void login_callback(userpass * up) {
 	
 	user = strdup(gtk_entry_get_text(GTK_ENTRY(up->username)));
 	password = strdup(gtk_entry_get_text(GTK_ENTRY(up->password)));
-	add_user(user,password);
-	//printf("MESSAGE: %s\n", responses); 
-	//printf("%s\n", gtk_entry_get_text(GTK_ENTRY(widget[1])));
+	add_user();
+}
+
+static void create_room_callback(GtkWidget * entry) {
+
+	char * room_name = (char*) g_malloc(sizeof(char) * 100);
+	//user = strdup(gtk_entry_get_text(GTK_ENTRY(up->username)));
+	//password = strdup(gtk_entry_get_text(GTK_ENTRY(up->password)));
+	room_name = strdup(gtk_entry_get_text(GTK_ENTRY(entry)));
+	create_room(room_name);
 }
 
 
@@ -543,8 +560,8 @@ int main( int   argc,
     
     create_b = gtk_button_new_with_label ("Create Room");
     g_signal_connect_swapped (create_b, "clicked",
-			      G_CALLBACK (gtk_widget_destroy),										//Change this callback
-			      window);													
+			      G_CALLBACK (create_room_callback),										//Change this callback
+			      create_e);													
   	gtk_box_pack_start (GTK_BOX (v_bbox3), create_b, TRUE, TRUE, 0);
     gtk_widget_set_can_default (create_b, TRUE);
     gtk_widget_grab_default (create_b);
