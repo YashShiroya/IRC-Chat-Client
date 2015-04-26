@@ -511,8 +511,10 @@ int main( int   argc,
     list_r = create_list ("Rooms", list_rooms);
     gtk_table_attach_defaults (GTK_TABLE (table), list_r, 10, 14, 0, 4);
     
-    g_signal_connect(gts, "changed", 
-      G_CALLBACK(tree_changed), NULL);
+    //g_signal_connect(gts, "changed", 
+      //G_CALLBACK(tree_changed), NULL);
+      
+      g_signal_connect(tree_view, "row-activated", G_CALLBACK(tree_changed), NULL);
       
     gtk_widget_show (list_r);
     
