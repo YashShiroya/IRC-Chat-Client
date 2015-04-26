@@ -348,11 +348,11 @@ static void tree_changed(GtkWidget * widget) {
 
     gtk_tree_model_get(model, &iter, 0, &value,  -1);
     
-    g_free(value);
+    
   }
   
   printf("value %s\n",value);
-	
+	g_free(value);
 }
 
 static void gtk_themer_crimson(GtkWidget *widget) {
