@@ -156,7 +156,7 @@ void enter_room() {
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
 	if(strcmp("default",text_selected) != 0) {
-		sendCommand(host, port, "ENTER-ROOM", user, password, text_selected, response);
+		sendCommand(host, port, "ENTER-ROOM", user, password, room_selected, response);
 	}
 	if (!strcmp(response,"OK\r\n")) {
 		//printf("User %s added\n", user);
@@ -167,7 +167,7 @@ void leave_room() {
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
 	if(strcmp("default",text_selected) != 0) {
-		sendCommand(host, port, "LEAVE-ROOM", user, password, text_selected, response);
+		sendCommand(host, port, "LEAVE-ROOM", user, password, room_selected, response);
 	}
 	if (!strcmp(response,"OK\r\n")) {
 		//printf("User %s added\n", user);
@@ -376,7 +376,7 @@ static void tree_changed(GtkWidget * widget) {
     
     
   }
-  	strcpy(room_selected,text_selected);
+  	room_selected = strdup(text_selected);
   printf("selected %s\n",text_selected);
 	g_free(text_selected);
 }
