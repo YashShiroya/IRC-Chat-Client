@@ -256,8 +256,7 @@ static gboolean time_handler(GtkWidget *widget)
 {
   if (widget->window == NULL) return FALSE;
 
-  //get_messages();
-  printf("I am here!\n");
+  get_messages();
   return TRUE;
 }
 
