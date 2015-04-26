@@ -23,10 +23,15 @@ GtkListStore * list_rooms;
 GtkListStore * list_users;
 GtkTreeSelection *gts;
 GtkWidget *tree_view;
+GtkWidget *messages;
+GtkTextBuffer * gtb;
 GtkTreeIter iterr;
+static char buffer[256];
+
 char *text_selected = (char*) g_malloc(sizeof(char) * 100);
 char * room_selected = (char*) g_malloc(sizeof(char) * 100);
 char * msg_room = (char*) g_malloc(sizeof(char) * 500);
+char * msg_get =  (char*) g_malloc(sizeof(char) * 100);
 gint login_check = 0;
 
 typedef struct
@@ -175,6 +180,37 @@ void leave_room() {
 	}
 }
 
+static void insert_text( GtkTextBuffer *buffer, const char * initialText )	////////////////////////////////// C R E A T E  T E X T ////////////////////////////////////
+{
+   GtkTextIter iter;
+ 
+   gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+   gtk_text_buffer_insert (buffer, &iter, initialText,-1);
+}
+   
+/* Create a scrolled text area that displays a "message" */
+static GtkWidget *create_text( const char * initialText )
+{
+   GtkWidget *scrolled_window;
+   GtkWidget *view;
+   GtkTextBuffer *buffer;
+
+   view = gtk_text_view_new ();
+   buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+
+   scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+		   	           GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC);
+
+   gtk_container_add (GTK_CONTAINER (scrolled_window), view);
+   insert_text (buffer, initialText);
+
+   gtk_widget_show_all (scrolled_window);
+
+   return scrolled_window;
+}
+
 void send_message(GtkWidget * message_entry) {
 	char response[ MAX_RESPONSE ];
 	strcpy(msg_room,"");
@@ -194,6 +230,41 @@ void send_message(GtkWidget * message_entry) {
 	if (!strcmp(response,"OK\r\n")) {
 		//printf("User %s added\n", user);
 	}
+}
+
+void get_messages() {
+	char response[ MAX_RESPONSE ];
+	strcpy(msg_get,"");
+	strcat(msg_get,"0 ");
+	char * res;
+	//gtb = gtk_text_view_get_buffer (GTK_TEXT_VIEW(messages));
+	
+	if(strcmp("default",room_selected) != 0) {
+		strcat(msg_get, room_selected);
+		sendCommand(host, port, "GET-MESSAGES", user, password, msg_get, response);
+		res = strdup(response);
+		//insert_text (gtb, res);
+		//gtk_widget_show_all (messages);
+		messages = create_text (res);
+	}
+	if (!strcmp(response,"OK\r\n")) {
+		//printf("User %s added\n", user);
+	}
+}
+
+static gboolean time_handler(GtkWidget *widget)
+{
+  if (widget->window == NULL) return FALSE;
+
+  time_t curtime;
+  struct tm *loctime;
+
+  curtime = time(NULL);
+  loctime = localtime(&curtime);
+  strftime(buffer, 256, "%T", loctime);
+  get_messages();
+  gtk_widget_queue_draw(widget);
+  return TRUE;
 }
 
 #define MAXWORD 200
@@ -353,36 +424,7 @@ when our window is realized. We could also force our window to be
 realized with gtk_widget_realize, but it would have to be part of
 a hierarchy first */
 
-static void insert_text( GtkTextBuffer *buffer, const char * initialText )	////////////////////////////////// C R E A T E  T E X T ////////////////////////////////////
-{
-   GtkTextIter iter;
- 
-   gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
-   gtk_text_buffer_insert (buffer, &iter, initialText,-1);
-}
-   
-/* Create a scrolled text area that displays a "message" */
-static GtkWidget *create_text( const char * initialText )
-{
-   GtkWidget *scrolled_window;
-   GtkWidget *view;
-   GtkTextBuffer *buffer;
 
-   view = gtk_text_view_new ();
-   buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-
-   scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-		   	           GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC);
-
-   gtk_container_add (GTK_CONTAINER (scrolled_window), view);
-   insert_text (buffer, initialText);
-
-   gtk_widget_show_all (scrolled_window);
-
-   return scrolled_window;
-}
 //______________________________________________________________________________________________________________
 
 
@@ -410,6 +452,8 @@ static void listrooms_callback() {
 		
 	
 }
+
+
 
 //static void listusers_callback() {
 //		printf("lr callback\n");
@@ -501,11 +545,11 @@ int main( int   argc,
           char *argv[] )
 {
     strcpy(host,"localhost");
-    port = 2401;
+    port = 2402;
     GtkWidget *window;
     GtkWidget *list_r;
     GtkWidget *list_u;
-    GtkWidget *messages;
+    
     GtkWidget *myMessage;
     userpass * userInfo;
     
@@ -659,7 +703,7 @@ int main( int   argc,
    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
-    messages = create_text ("Peter: Hi how are you\nMary: I am fine, thanks and you?\nPeter: Fine thanks.\n");
+    //messages = create_text ("");
     gtk_table_attach_defaults (GTK_TABLE (table), messages, 4, 10, 0, 7);
     gtk_widget_show (messages);
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
@@ -674,9 +718,7 @@ int main( int   argc,
 
     //myMessage = create_text ("I am fine, thanks and you?\n");
     msg_entry = gtk_entry_new();
-    //const gchar * text3 = "Writie Message Here";
-    //gtk_entry_set_placeholder_text (GTK_ENTRY(msg_entry), text3);
-   	
+      	
    gtk_box_pack_start (GTK_BOX (v_box_msg), msg_entry, TRUE, TRUE, 0);
    gtk_widget_set_size_request (GTK_WIDGET (msg_entry), 100, 200);
     gtk_widget_show (msg_entry);
