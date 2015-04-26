@@ -225,8 +225,7 @@ static GtkWidget *create_list( const char * titleColumn, GtkListStore *model )
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view),
 	  		         GTK_TREE_VIEW_COLUMN (column));
 	//g_signal_connect(tree_view, "row-activated", G_CALLBACK(update_list_rooms), NULL);
-	gts = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
-
+		
     return scrolled_window;
 }
    
@@ -515,8 +514,8 @@ int main( int   argc,
     
     //g_signal_connect(gts, "changed", 
       //G_CALLBACK(tree_changed), NULL);
-      
-      g_signal_connect(gts, "row-activated", G_CALLBACK(tree_changed), NULL);
+      gts = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
+      g_signal_connect_swapped(tree_view, "row-activated", G_CALLBACK(tree_changed), gts);
       
     gtk_widget_show (list_r);
     
