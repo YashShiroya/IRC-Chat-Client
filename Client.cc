@@ -26,6 +26,7 @@ GtkWidget *tree_view;
 GtkTreeIter iterr;
 char *text_selected = (char*) g_malloc(sizeof(char) * 100);
 char * room_selected = (char*) g_malloc(sizeof(char) * 100);
+char * msg_room = (char*) g_malloc(sizeof(char) * 500);
 gint login_check = 0;
 
 typedef struct
@@ -155,7 +156,7 @@ void create_room(char * room_name) {
 void enter_room() {
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
-	if(strcmp("default",text_selected) != 0) {
+	if(strcmp("default",room_selected) != 0) {
 		sendCommand(host, port, "ENTER-ROOM", user, password, room_selected, response);
 	}
 	if (!strcmp(response,"OK\r\n")) {
@@ -166,8 +167,29 @@ void enter_room() {
 void leave_room() {
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
-	if(strcmp("default",text_selected) != 0) {
+	if(strcmp("default",room_selected) != 0) {
 		sendCommand(host, port, "LEAVE-ROOM", user, password, room_selected, response);
+	}
+	if (!strcmp(response,"OK\r\n")) {
+		//printf("User %s added\n", user);
+	}
+}
+
+void send_message(GtkWidget * message_entry) {
+	char response[ MAX_RESPONSE ];
+	strcpy(msg_room,"");
+	
+	char * sent_message = strdup(gtk_entry_get_text(GTK_ENTRY(message_entry)));
+	if(strcmp("default",room_selected) != 0) {												//Could cause errors.......................................................
+		
+		strcat(msg_room, room_selected);
+		strcat(msg_room, " ");
+		strcat(msg_room, sent_message);
+		
+		sendCommand(host, port, "SEND-MESSAGE", user, password, msg_room, response);
+	}
+	else {
+		printf("Client Request, select a room\n");
 	}
 	if (!strcmp(response,"OK\r\n")) {
 		//printf("User %s added\n", user);
@@ -654,7 +676,7 @@ int main( int   argc,
     msg_entry = gtk_entry_new();
     //const gchar * text3 = "Writie Message Here";
     //gtk_entry_set_placeholder_text (GTK_ENTRY(msg_entry), text3);
-   // gtk_table_attach_defaults (GTK_TABLE (table), myMessage, 4, 10, 7, 11);
+   	
    gtk_box_pack_start (GTK_BOX (v_box_msg), msg_entry, TRUE, TRUE, 0);
    gtk_widget_set_size_request (GTK_WIDGET (msg_entry), 100, 200);
     gtk_widget_show (msg_entry);
@@ -663,6 +685,9 @@ int main( int   argc,
     GtkWidget *send_button = gtk_button_new_with_label ("Send");
     //gtk_table_attach_defaults(GTK_TABLE (table), send_button, 4, 10, 11, 12);
     gtk_box_pack_start (GTK_BOX (v_box_msg), send_button, TRUE, TRUE, 0);
+    g_signal_connect_swapped (send_button, "clicked",
+			      G_CALLBACK (send_message),										//Change this callback
+			      msg_entry);
     gtk_widget_show (send_button);
    
    	
