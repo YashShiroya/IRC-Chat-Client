@@ -24,6 +24,7 @@ GtkListStore * list_users;
 GtkTreeSelection *gts;
 GtkWidget *tree_view;
 GtkTreeIter iterr;
+char *text_selected = (char*) g_malloc(sizeof(char) * 100);
  
 gint login_check = 0;
 
@@ -151,6 +152,27 @@ void create_room(char * room_name) {
 	}
 }
 
+void enter_room() {
+	// Try first to add user in case it does not exist.
+	char response[ MAX_RESPONSE ];
+	if(strcmp("default",text_selected) != 0) {
+		sendCommand(host, port, "ENTER-ROOM", user, password, text_selected, response);
+	}
+	if (!strcmp(response,"OK\r\n")) {
+		//printf("User %s added\n", user);
+	}
+}
+
+void leave_room() {
+	// Try first to add user in case it does not exist.
+	char response[ MAX_RESPONSE ];
+	if(strcmp("default",text_selected) != 0) {
+		sendCommand(host, port, "LEAVE-ROOM", user, password, text_selected, response);
+	}
+	if (!strcmp(response,"OK\r\n")) {
+		//printf("User %s added\n", user);
+	}
+}
 
 #define MAXWORD 200
 int wordLength = 0;
@@ -293,6 +315,9 @@ static void listrooms_callback() {
 }
 
 
+
+
+
 /*static void enter_callback( GtkWidget *widget,
                             GtkWidget *entry )
 {
@@ -331,14 +356,14 @@ static void gtk_themer_dark(GtkWidget *widget) {
 }
 
 
-char *text_selected = (char*) g_malloc(sizeof(char) * 100);
-char *value = (char*) g_malloc(sizeof(char) * 100);
+
+
 
 static void tree_changed(GtkWidget * widget) {
 	
 	printf("Callback tree_changed\n");
 	//GtkTreeModel *model;
-	value = "default\n";
+	text_selected = "default\n";
   GtkTreeIter iter;
   GtkTreeModel *model;
   
@@ -347,13 +372,13 @@ static void tree_changed(GtkWidget * widget) {
   if (gtk_tree_selection_get_selected(
       GTK_TREE_SELECTION(widget), &model, &iter)) {
 
-    gtk_tree_model_get(model, &iter, 0, &value,  -1);
+    gtk_tree_model_get(model, &iter, 0, &text_selected,  -1);
     
     
   }
   
-  printf("value %s\n",value);
-	g_free(value);
+  printf("selected %s\n",text_selected);
+	g_free(text_selected);
 }
 
 static void gtk_themer_crimson(GtkWidget *widget) {
@@ -627,8 +652,7 @@ int main( int   argc,
   	gtk_box_pack_start (GTK_BOX (v_bbox3), create_b, TRUE, TRUE, 0);
     gtk_widget_set_can_default (create_b, TRUE);
     gtk_widget_grab_default (create_b);
-    gtk_widget_set_size_request (GTK_WIDGET (create_b), 250, 40);
-    gtk_widget_show (create_b);
+    gtk_widget_set_size_request (GTK_WIDGET (create_b), 250, 40);    gtk_widget_show (create_b);
     
     //____________________________________________
         
@@ -643,8 +667,8 @@ int main( int   argc,
     
     enter_b = gtk_button_new_with_label ("Enter Room");
     g_signal_connect_swapped (enter_b, "clicked",
-			      G_CALLBACK (gtk_widget_destroy),										//Change this callback
-			      window);													
+			      G_CALLBACK (enter_room),										//Change this callback
+			      NULL);													
     gtk_box_pack_start (GTK_BOX (v_bbox2), enter_b, TRUE, TRUE, 0);
     gtk_widget_set_can_default (enter_b, TRUE);
     gtk_widget_grab_default (enter_b);
@@ -653,8 +677,8 @@ int main( int   argc,
     
     leave_b = gtk_button_new_with_label ("Leave Room");
     g_signal_connect_swapped (leave_b, "clicked",
-			      G_CALLBACK (gtk_widget_destroy),										//Change this callback
-			      window);													
+			      G_CALLBACK (leave_room),										//Change this callback
+			      NULL);													
     gtk_box_pack_start (GTK_BOX (v_bbox2), leave_b, TRUE, TRUE, 0);
     gtk_widget_set_can_default (leave_b, TRUE);
     gtk_widget_grab_default (leave_b);
