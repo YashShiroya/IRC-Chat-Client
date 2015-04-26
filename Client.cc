@@ -333,18 +333,24 @@ static void gtk_themer_dark(GtkWidget *widget) {
 
 
 char *text_selected = (char*) g_malloc(sizeof(char) * 100);
-
+char *value;
 static void tree_changed(GtkWidget * widget) {
-	GtkTreeModel *model;
+	//GtkTreeModel *model;
 	text_selected = "default\n";
-  if (gtk_tree_selection_get_selected(
-      GTK_TREE_SELECTION(widget), &model, &iterr)) {
-
-    gtk_tree_model_get(model, &iterr, 0, &text_selected,  -1);
-    g_free(text_selected);
-  }	
+  GtkTreeIter iter;
+  GtkTreeModel *model;
   
-  printf(text_selected);
+
+
+  if (gtk_tree_selection_get_selected(
+      GTK_TREE_SELECTION(widget), &model, &iter)) {
+
+    gtk_tree_model_get(model, &iter, 0, &value,  -1);
+    
+    g_free(value);
+  }
+  
+  printf("value %s\n",value);
 	
 }
 
