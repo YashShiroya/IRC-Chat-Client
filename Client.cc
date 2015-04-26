@@ -333,10 +333,11 @@ static void gtk_themer_dark(GtkWidget *widget) {
 
 
 char *text_selected = (char*) g_malloc(sizeof(char) * 100);
-char *value;
+char *value = (char*) g_malloc(sizeof(char) * 100);
+
 static void tree_changed(GtkWidget * widget) {
 	//GtkTreeModel *model;
-	text_selected = "default\n";
+	value = "default\n";
   GtkTreeIter iter;
   GtkTreeModel *model;
   
