@@ -556,7 +556,8 @@ int main( int   argc,
     //User field
     userInfo->username = gtk_entry_new ();
     gtk_entry_set_max_length (GTK_ENTRY (userInfo->username), 50);
-    gtk_entry_set_text (GTK_ENTRY (userInfo->username), "Username");
+    //const gchar * text = "Username";
+    //gtk_entry_set_placeholder_text (GTK_ENTRY(userInfo->username),text);
     gtk_box_pack_start (GTK_BOX (vbox), userInfo->username, TRUE, TRUE, 0);
     gtk_widget_show(userInfo->username);
 	
@@ -565,13 +566,8 @@ int main( int   argc,
     //Password field
     userInfo->password = gtk_entry_new ();
     gtk_entry_set_max_length (GTK_ENTRY (userInfo->password), 50);
-   
-    gtk_entry_set_text (GTK_ENTRY (userInfo->password), "Pass");
-    tmp_pos = GTK_ENTRY (userInfo->password)->text_length;
-    gtk_editable_insert_text (GTK_EDITABLE (userInfo->password), " word", -1, &tmp_pos);
-    gtk_editable_select_region (GTK_EDITABLE (userInfo->password),
-			        0, GTK_ENTRY (userInfo->password)->text_length);
-    
+    //const gchar * text2 = "Password";
+    //gtk_entry_set_placeholder_text (GTK_ENTRY(userInfo->password),text2);   
     gtk_entry_set_visibility (GTK_ENTRY (userInfo->password), FALSE);
     gtk_box_pack_start (GTK_BOX (vbox), userInfo->password, TRUE, TRUE, 0);
     gtk_widget_show (userInfo->password);
@@ -656,7 +652,8 @@ int main( int   argc,
 
     //myMessage = create_text ("I am fine, thanks and you?\n");
     msg_entry = gtk_entry_new();
-    //gtk_entry_set_text (GTK_ENTRY (msg_entry), "");
+    //const gchar * text3 = "Writie Message Here";
+    //gtk_entry_set_placeholder_text (GTK_ENTRY(msg_entry), text3);
    // gtk_table_attach_defaults (GTK_TABLE (table), myMessage, 4, 10, 7, 11);
    gtk_box_pack_start (GTK_BOX (v_box_msg), msg_entry, TRUE, TRUE, 0);
    gtk_widget_set_size_request (GTK_WIDGET (msg_entry), 100, 200);
