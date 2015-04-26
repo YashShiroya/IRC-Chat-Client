@@ -514,7 +514,7 @@ int main( int   argc,
     //g_signal_connect(gts, "changed", 
       //G_CALLBACK(tree_changed), NULL);
       
-      g_signal_connect(tree_view, "row-activated", G_CALLBACK(tree_changed), NULL);
+      g_signal_connect(gts, "row-activated", G_CALLBACK(tree_changed), NULL);
       
     gtk_widget_show (list_r);
     
