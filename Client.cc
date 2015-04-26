@@ -132,6 +132,32 @@ int sendCommand(char * host, int port, char * command, char * user,
 	close(sock);
 }
 
+int sendCommand_message(char * h, int p, char * com, char * usr,
+		char * pswrd, char * argz, char * resp) {
+	int sock = open_client_socket( h, p);
+
+	// Send command
+	write(sock, com, strlen(com));
+	write(sock, " ", 1);
+	write(sock, usr, strlen(usr));
+	write(sock, " ", 1);
+	write(sock, pswrd, strlen(pswrd));
+	write(sock, " ", 1);
+	write(sock, argz, strlen(argz));
+	write(sock, "\r\n",2);
+
+	// Keep reading until connection is closed or MAX_REPONSE
+	int n = 0;
+	int len = 0;
+	while ((n=read(sock, resp+len, MAX_RESPONSE - len))>0) {
+		len += n;
+	}
+	resp[len - 1] = '\0';
+	printf("resp:%s\n", resp);
+
+	close(sock);
+}
+
 void printUsage()
 {
 	printf("Usage: talk-client host port user password\n");
@@ -233,6 +259,7 @@ void send_message(GtkWidget * message_entry) {
 }
 
 void get_messages() {
+
 	char response[ MAX_RESPONSE ];
 	strcpy(msg_get,"");
 	strcat(msg_get,"0 ");
@@ -241,7 +268,7 @@ void get_messages() {
 	
 	if(strcmp("default",room_selected) != 0) {
 		strcat(msg_get, room_selected);
-		sendCommand(host, port, "GET-MESSAGES", user, password, msg_get, response);
+		sendCommand_message(host, port, "GET-MESSAGES", user, password, msg_get, response);
 		res = strdup(response);
 		//insert_text (gtb, res);
 		//gtk_widget_show_all (messages);
