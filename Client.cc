@@ -336,6 +336,8 @@ char *text_selected = (char*) g_malloc(sizeof(char) * 100);
 char *value = (char*) g_malloc(sizeof(char) * 100);
 
 static void tree_changed(GtkWidget * widget) {
+	
+	printf("Callback tree_changed\n");
 	//GtkTreeModel *model;
 	value = "default\n";
   GtkTreeIter iter;
