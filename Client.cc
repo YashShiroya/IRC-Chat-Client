@@ -21,6 +21,9 @@
 
 GtkListStore * list_rooms;
 GtkListStore * list_users;
+GtkTreeSelection *gts;
+GtkWidget *tree_view;
+GtkTreeIter iterr;
  
 gint login_check = 0;
 
@@ -156,7 +159,7 @@ char word[MAXWORD];
 //________________________________________________________________________________________________________
 void update_list_rooms() {
 
-    GtkTreeIter iter;
+    
     //nt i = 0;
 		char response[ MAX_RESPONSE ];
 		sendCommand(host, port, "LIST-ROOMS", user, password, "", response);
@@ -176,8 +179,8 @@ void update_list_rooms() {
 	        	word[i] = '\0';
 	        	i = 0;
 				t = strdup(word);
-				gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iter);
-        		gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iter, 0, t, -1);
+				gtk_list_store_append (GTK_LIST_STORE (list_rooms), &iterr);
+        		gtk_list_store_set (GTK_LIST_STORE (list_rooms), &iterr, 0, t, -1);
 				
 			}
 	   }
@@ -188,25 +191,12 @@ void update_list_rooms() {
     
 }
 
-void update_list_users() {
-    GtkTreeIter iter;
-    int i;
-
-    /* Add some messages to the window */
-    for (i = 0; i < 10; i++) {
-        gchar *usr = g_strdup_printf ("User %d", i);
-        gtk_list_store_append (GTK_LIST_STORE (list_users), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (list_users), 
-	                    &iter, 0, usr, -1);
-	g_free (usr);
-    }
-}
 
 /* Create the list of "messages" */
 static GtkWidget *create_list( const char * titleColumn, GtkListStore *model )
 {
     GtkWidget *scrolled_window;
-    GtkWidget *tree_view;
+    
     //GtkListStore *model;
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
@@ -234,6 +224,8 @@ static GtkWidget *create_list( const char * titleColumn, GtkListStore *model )
   
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view),
 	  		         GTK_TREE_VIEW_COLUMN (column));
+	//g_signal_connect(tree_view, "row-activated", G_CALLBACK(update_list_rooms), NULL);
+	gts = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 
     return scrolled_window;
 }
@@ -339,6 +331,22 @@ static void gtk_themer_dark(GtkWidget *widget) {
     gtk_widget_modify_bg (GTK_WIDGET(widget), GTK_STATE_NORMAL, &color);
 }
 
+
+char *text_selected = (char*) g_malloc(sizeof(char) * 100);
+
+static void tree_changed(GtkWidget * widget) {
+	GtkTreeModel *model;
+	text_selected = "default\n";
+  if (gtk_tree_selection_get_selected(
+      GTK_TREE_SELECTION(widget), &model, &iterr)) {
+
+    gtk_tree_model_get(model, &iterr, 0, &text_selected,  -1);
+    g_free(text_selected);
+  }	
+  
+  printf(text_selected);
+	
+}
 
 static void gtk_themer_crimson(GtkWidget *widget) {
 	GdkColor color;
@@ -481,23 +489,36 @@ int main( int   argc,
 
 //LOGIN END_________________________________________________________________________________________________________________
 
+    
+    
+    
+    
     // Add list of rooms. Use columns 0 to 4 (exclusive) and rows 0 to 4 (exclusive)
     if(login_check == 0) {
+    
+    /////////////////////////////// R       O       O        M        S/////////////////////////////////////////
     
     list_rooms = gtk_list_store_new (1, G_TYPE_STRING);
     //update_list_rooms();
     
     list_r = create_list ("Rooms", list_rooms);
     gtk_table_attach_defaults (GTK_TABLE (table), list_r, 10, 14, 0, 4);
+    
+    g_signal_connect(gts, "changed", 
+      G_CALLBACK(tree_changed), NULL);
+      
     gtk_widget_show (list_r);
     
-    //List of users
-    list_users = gtk_list_store_new (1, G_TYPE_STRING);
-    //update_list_users();
     
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////user tree removed
+    //List of users
+    /*list_users = gtk_list_store_new (1, G_TYPE_STRING);
     list_u = create_list ("Users", list_users);
     gtk_table_attach_defaults (GTK_TABLE (table), list_u, 0, 4, 5, 12);
-    gtk_widget_show (list_u);
+    gtk_widget_show (list_u);*/
+   
+   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
     messages = create_text ("Peter: Hi how are you\nMary: I am fine, thanks and you?\nPeter: Fine thanks.\n");
@@ -526,6 +547,8 @@ int main( int   argc,
     gtk_widget_show (send_button);
    
    	
+   
+   
     
     //THEME________________________________________________________
     
