@@ -25,7 +25,7 @@ GtkTreeSelection *gts;
 GtkWidget *tree_view;
 GtkTreeIter iterr;
 char *text_selected = (char*) g_malloc(sizeof(char) * 100);
- 
+char * room_selected = (char*) g_malloc(sizeof(char) * 100);
 gint login_check = 0;
 
 typedef struct
@@ -376,7 +376,7 @@ static void tree_changed(GtkWidget * widget) {
     
     
   }
-  
+  	room_selected = strdup(text_selected);
   printf("selected %s\n",text_selected);
 	g_free(text_selected);
 }
