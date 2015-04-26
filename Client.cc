@@ -331,7 +331,7 @@ when our window is realized. We could also force our window to be
 realized with gtk_widget_realize, but it would have to be part of
 a hierarchy first */
 
-static void insert_text( GtkTextBuffer *buffer, const char * initialText )
+static void insert_text( GtkTextBuffer *buffer, const char * initialText )	////////////////////////////////// C R E A T E  T E X T ////////////////////////////////////
 {
    GtkTextIter iter;
  
@@ -515,6 +515,7 @@ int main( int   argc,
     GtkWidget *v_box_msg;
     GtkWidget *create_e;
     GtkWidget *listrooms_b;
+    GtkWidget *msg_entry;
     
     //GTK Pointer
     
@@ -653,11 +654,13 @@ int main( int   argc,
     gtk_widget_show (v_box_msg);
 	
 
-    myMessage = create_text ("I am fine, thanks and you?\n");
+    //myMessage = create_text ("I am fine, thanks and you?\n");
+    msg_entry = gtk_entry_new();
+    //gtk_entry_set_text (GTK_ENTRY (msg_entry), "");
    // gtk_table_attach_defaults (GTK_TABLE (table), myMessage, 4, 10, 7, 11);
-   gtk_box_pack_start (GTK_BOX (v_box_msg), myMessage, TRUE, TRUE, 0);
-   gtk_widget_set_size_request (GTK_WIDGET (myMessage), 100, 200);
-    gtk_widget_show (myMessage);
+   gtk_box_pack_start (GTK_BOX (v_box_msg), msg_entry, TRUE, TRUE, 0);
+   gtk_widget_set_size_request (GTK_WIDGET (msg_entry), 100, 200);
+    gtk_widget_show (msg_entry);
 
     // Add send button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
     GtkWidget *send_button = gtk_button_new_with_label ("Send");
