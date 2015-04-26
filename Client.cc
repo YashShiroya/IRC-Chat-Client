@@ -256,18 +256,13 @@ static gboolean time_handler(GtkWidget *widget)
 {
   if (widget->window == NULL) return FALSE;
 
-  time_t curtime;
-  struct tm *loctime;
-
-  curtime = time(NULL);
-  loctime = localtime(&curtime);
-  strftime(buffer, 256, "%T", loctime);
-  get_messages();
-  gtk_widget_queue_draw(widget);
+  //get_messages();
+  printf("I am here!\n");
   return TRUE;
 }
 
 #define MAXWORD 200
+ 
   
 
 //________________________________________________________________________________________________________
@@ -887,9 +882,10 @@ int main( int   argc,
    } 
     
     //gdk_color_parse("red_float", &color);
-    
+    g_timeout_add(2000, (GSourceFunc) time_handler, (gpointer) window);
     gtk_widget_show (table);
     gtk_widget_show (window);
+    time_handler(window);
     
 
     gtk_main ();
