@@ -376,7 +376,7 @@ static void tree_changed(GtkWidget * widget) {
     
     
   }
-  	room_selected = strdup(text_selected);
+  	strcpy(room_selected,text_selected);
   printf("selected %s\n",text_selected);
 	g_free(text_selected);
 }
