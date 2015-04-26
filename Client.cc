@@ -175,12 +175,13 @@ void leave_room() {
 }
 
 #define MAXWORD 200
-int wordLength = 0;
-char word[MAXWORD];  
+  
 
 //________________________________________________________________________________________________________
 void update_list_rooms() {
-
+		
+		int wordLength = 0;
+		char word[MAXWORD];
     
     //nt i = 0;
 		char response[ MAX_RESPONSE ];
@@ -213,6 +214,43 @@ void update_list_rooms() {
     
 }
 
+void update_list_users() {
+
+    
+    //nt i = 0;
+    	int wordLength = 0;
+		char word[MAXWORD];
+    	GtkTreeIter iter;
+    		
+		char response[ MAX_RESPONSE ];
+		sendCommand(host, port, "GET-USERS-IN-ROOMS", user, password, room_selected, response);
+		
+		char * t; char * res;
+		//nextword
+		res = strdup(response);
+		int c; int i = 0;
+	
+	while((c = *res) != '\0') {
+	    if(c != '\n' && c != '\r') {
+	        word[i++] = c;
+	    }
+	    else if(c == '\r') {
+	    	res++;
+	        if(i > 0) {
+	        	word[i] = '\0';
+	        	i = 0;
+				t = strdup(word);
+				gtk_list_store_append (GTK_LIST_STORE (list_users), &iter);
+        		gtk_list_store_set (GTK_LIST_STORE (list_users), &iter, 0, t, -1);
+				
+			}
+	   }
+	   //printf("c %c\n",c);
+	   res++;
+	}
+
+    
+}
 
 /* Create the list of "messages" */
 static GtkWidget *create_list( const char * titleColumn, GtkListStore *model )
@@ -250,6 +288,42 @@ static GtkWidget *create_list( const char * titleColumn, GtkListStore *model )
 		
     return scrolled_window;
 }
+   
+static GtkWidget * create_list_users( const char * titleColumn, GtkListStore *model )
+{
+    GtkWidget *scrolled_window;
+    GtkWidget *tree_view_r;
+    //GtkListStore *model;
+    GtkCellRenderer *cell;
+    GtkTreeViewColumn *column;
+
+    int i;
+   
+    /* Create a new scrolled window, with scrollbars only if needed */
+    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+				    GTK_POLICY_AUTOMATIC, 
+				    GTK_POLICY_AUTOMATIC);
+   
+    //model = gtk_list_store_new (1, G_TYPE_STRING);
+    tree_view_r = gtk_tree_view_new ();
+    gtk_container_add (GTK_CONTAINER (scrolled_window), tree_view_r);
+    gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view_r), GTK_TREE_MODEL (model));
+    gtk_widget_show (tree_view_r);
+   
+    cell = gtk_cell_renderer_text_new ();
+
+    column = gtk_tree_view_column_new_with_attributes (titleColumn,
+                                                       cell,
+                                                       "text", 0,
+                                                       NULL);
+  
+    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view_r),
+	  		         GTK_TREE_VIEW_COLUMN (column));
+	//g_signal_connect(tree_view, "row-activated", G_CALLBACK(update_list_rooms), NULL);
+		
+    return scrolled_window;
+}   
    
 /* Add some text to our text widget - this is a callback that is invoked
 when our window is realized. We could also force our window to be
@@ -314,7 +388,13 @@ static void listrooms_callback() {
 	
 }
 
-
+static void listusers_callback() {
+		printf("lr callback\n");
+		gtk_list_store_clear (list_users);
+		update_list_users();
+		
+	
+}
 
 
 
@@ -366,7 +446,7 @@ static void tree_changed(GtkWidget * widget) {
 	text_selected = "default\n";
   GtkTreeIter iter;
   GtkTreeModel *model;
-  
+ 
 
 
   if (gtk_tree_selection_get_selected(
@@ -377,7 +457,8 @@ static void tree_changed(GtkWidget * widget) {
     
   }
   	room_selected = strdup(text_selected);
-  printf("selected %s\n",text_selected);
+  	update_list_users();
+  	printf("selected %s\n",text_selected);
 	g_free(text_selected);
 }
 
@@ -548,10 +629,11 @@ int main( int   argc,
     
     ////////////////////////////////////////////////////////////////////////////////////////////////user tree removed
     //List of users
-    /*list_users = gtk_list_store_new (1, G_TYPE_STRING);
-    list_u = create_list ("Users", list_users);
+    list_users = gtk_list_store_new (1, G_TYPE_STRING);
+    list_u = create_list_users ("Users", list_users);
     gtk_table_attach_defaults (GTK_TABLE (table), list_u, 0, 4, 5, 12);
-    gtk_widget_show (list_u);*/
+    gtk_widget_show (list_u);
+    
    
    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
