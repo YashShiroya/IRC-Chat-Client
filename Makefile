@@ -5,7 +5,7 @@ hello: hello.c
 	gcc hello.c -o hello `pkg-config --cflags --libs gtk+-2.0`
 
 Client: Client.cc
-	gcc Client.cc -o Client `pkg-config --cflags --libs gtk+-3.2`
+	gcc Client.cc -o Client `pkg-config --cflags --libs gtk+-2.0`
 
 panned: panned.c
 	gcc panned.c -o panned `pkg-config --cflags --libs gtk+-2.0`
