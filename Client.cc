@@ -218,6 +218,7 @@ void update_list_users() {
 
     
     //nt i = 0;
+    	gtk_list_store_clear (list_users);
     	int wordLength = 0;
 		char word[MAXWORD];
     	GtkTreeIter iter;
@@ -388,13 +389,13 @@ static void listrooms_callback() {
 	
 }
 
-static void listusers_callback() {
-		printf("lr callback\n");
-		gtk_list_store_clear (list_users);
-		update_list_users();
+//static void listusers_callback() {
+//		printf("lr callback\n");
+		
+	//	update_list_users();
 		
 	
-}
+//}
 
 
 
@@ -442,6 +443,7 @@ static void gtk_themer_dark(GtkWidget *widget) {
 static void tree_changed(GtkWidget * widget) {
 	
 	printf("Callback tree_changed\n");
+	
 	//GtkTreeModel *model;
 	text_selected = "default\n";
   GtkTreeIter iter;
