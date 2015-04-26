@@ -223,7 +223,7 @@ void update_list_users() {
     	GtkTreeIter iter;
     		
 		char response[ MAX_RESPONSE ];
-		sendCommand(host, port, "GET-USERS-IN-ROOMS", user, password, room_selected, response);
+		sendCommand(host, port, "GET-USERS-IN-ROOM", user, password, room_selected, response);
 		
 		char * t; char * res;
 		//nextword
