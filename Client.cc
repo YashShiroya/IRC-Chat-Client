@@ -777,7 +777,7 @@ int main( int   argc,
     ////////////////////////////////////////////////////////////////////////////////////////////////user tree removed
     //List of users
     list_users = gtk_list_store_new (1, G_TYPE_STRING);
-    list_u = create_list_users ("Users", list_users);
+    list_u = create_list_users ("Users In Room", list_users);
     gtk_table_attach_defaults (GTK_TABLE (table), list_u, 0, 4, 5, 12);
     gtk_widget_show (list_u);
     
