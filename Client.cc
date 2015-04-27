@@ -573,7 +573,7 @@ int main( int   argc,
           char *argv[] )
 {
     strcpy(host,"localhost");
-    port = 2402;
+    port = 2011;
     GtkWidget *window;
     GtkWidget *list_r;
     GtkWidget *list_u;
