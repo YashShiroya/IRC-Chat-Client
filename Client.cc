@@ -177,10 +177,10 @@ void enter_room() {
 	if(strcmp("default",room_selected) != 0) {
 		sendCommand(host, port, "ENTER-ROOM", user, password, room_selected, response);
 	}
-	if (strcmp(response,"OK\r\n") == 0) {
+	//if (strcmp(response,"OK\r\n") == 0) {
 		//printf("User %s added\n", user);
 		sendCommand(host, port, "SEND-MESSAGE", user, password, notification, response);
-	}
+	//}
 }
 
 void leave_room() {
