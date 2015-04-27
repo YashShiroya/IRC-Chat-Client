@@ -707,7 +707,7 @@ int main( int   argc,
     gtk_init (&argc, &argv);
    
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (window), "Paned Windows");
+    gtk_window_set_title (GTK_WINDOW (window), "G-Messenger v1.0");
     g_signal_connect (window, "destroy",
 	              G_CALLBACK (gtk_main_quit), NULL);
     gtk_container_set_border_width (GTK_CONTAINER (window), 10);
@@ -856,7 +856,7 @@ int main( int   argc,
     msg_entry = gtk_entry_new();
       	
    gtk_box_pack_start (GTK_BOX (v_box_msg), msg_entry, TRUE, TRUE, 0);
-   gtk_widget_set_size_request (GTK_WIDGET (msg_entry), 100, 200);
+   gtk_widget_set_size_request (GTK_WIDGET (msg_entry), 100, 100);
     gtk_widget_show (msg_entry);
 
     // Add send button. Use columns 0 to 1 (exclusive) and rows 4 to 7 (exclusive)
