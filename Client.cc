@@ -736,6 +736,7 @@ int main( int   argc,
     
     hbox_si_su = gtk_hbox_new(FALSE,0);
     gtk_box_pack_start (GTK_BOX (vbox), hbox_si_su, TRUE, TRUE, 0);
+    gtk_widget_show(hbox_si_su);
     
     button_sign_in = gtk_button_new_with_label ("Sign Up");
     g_signal_connect_swapped (button_sign_in, "clicked",
