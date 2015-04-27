@@ -21,9 +21,11 @@
 
 GtkListStore * list_rooms;
 GtkListStore * list_users;
-char * res;
+char * resp;
 GtkTreeSelection *gts;
 GtkWidget *tree_view;
+GtkWidget *scrolled_m;
+GtkWidget *view_m;
 GtkWidget *messages;
 GtkTextBuffer * gtb;
 GtkTextBuffer *buffer_m;
@@ -242,6 +244,28 @@ void send_message(GtkWidget * message_entry) {
 	}
 }
 
+void message_call(char * initialText) {
+
+   view_m = gtk_text_view_new ();
+   buffer_m = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view_m));
+
+   scrolled_m = gtk_scrolled_window_new (NULL, NULL);
+   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_m),
+		   	           GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC);
+
+   gtk_container_add (GTK_CONTAINER (scrolled_m), view_m);
+   //insert_text (buffer_m, initialText);
+	GtkTextIter iter;
+ 
+   gtk_text_buffer_get_iter_at_offset (buffer_m, &iter, 0);
+   gtk_text_buffer_insert (buffer_m, &iter, initialText,-1);
+   
+   gtk_widget_show_all (scrolled_m);
+   
+   //return scrolled_window;
+}
+
 void get_messages() {
 
 	char response[ MAX_RESPONSE ];
@@ -254,8 +278,8 @@ void get_messages() {
 	if(strcmp("default",room_selected) != 0) {
 		strcat(msg_get, room_selected);
 		sendCommand(host, port, "GET-MESSAGES", user, password, msg_get, response);
-		res = strdup(response);
-
+		resp = strdup(response);
+		message_call(resp);
 		
 	}
 	if (!strcmp(response,"OK\r\n")) {
@@ -345,13 +369,14 @@ void update_list_users() {
     
 }
 
+
+
 static gboolean time_handler(GtkWidget *widget)
 {
   if (widget->window == NULL) return FALSE;
   if(check == 1) {	
 	gtk_list_store_clear (list_rooms);
 	update_list_rooms();
-  	get_messages();
   }	
   	return TRUE;
 }
@@ -683,6 +708,7 @@ int main( int   argc,
     
     
     
+    
     // Add list of rooms. Use columns 0 to 4 (exclusive) and rows 0 to 4 (exclusive)
     if(login_check == 0) {
     
@@ -714,13 +740,17 @@ int main( int   argc,
    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
-    messages = create_text ("HELLO");
-    gtk_table_attach_defaults (GTK_TABLE (table), messages, 4, 10, 0, 7);
-    gtk_widget_show (messages);
-   
-   
-   messages = create_text ("YOLO\n");
-   gtk_widget_show (messages);
+    //messages = create_text ("HELLO");
+    scrolled_m = gtk_scrolled_window_new (NULL, NULL);
+   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_m),
+		   	           GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC);
+
+   gtk_container_add (GTK_CONTAINER (scrolled_m), view_m);
+    
+    gtk_table_attach_defaults (GTK_TABLE (table), scrolled_m, 4, 10, 0, 7);
+    gtk_widget_show (scrolled_m);
+
    
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
 
