@@ -254,9 +254,7 @@ void get_messages() {
 		strcat(msg_get, room_selected);
 		sendCommand(host, port, "GET-MESSAGES", user, password, msg_get, response);
 		res = strdup(response);
-		//insert_text (gtb, res);
-		//gtk_widget_show_all (messages);
-		gtk_text_buffer_set_text(buffer_m, res, -1);
+
 		
 	}
 	if (!strcmp(response,"OK\r\n")) {
@@ -264,13 +262,7 @@ void get_messages() {
 	}
 }
 
-static gboolean time_handler(GtkWidget *widget)
-{
-  if (widget->window == NULL) return FALSE;
 
-  get_messages();
-  return TRUE;
-}
 
 #define MAXWORD 200
  
@@ -350,6 +342,15 @@ void update_list_users() {
 	}
 
     
+}
+
+static gboolean time_handler(GtkWidget *widget)
+{
+  if (widget->window == NULL) return FALSE;
+	gtk_list_store_clear (list_rooms);
+	update_list_rooms();
+  	get_messages();
+  	return TRUE;
 }
 
 /* Create the list of "messages" */
