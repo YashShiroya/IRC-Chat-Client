@@ -154,6 +154,17 @@ void add_user() {
 	}
 }
 
+void signin_user() {
+	// Try first to add user in case it does not exist.
+	char response[ MAX_RESPONSE ];
+	response[0] = '\0';
+	sendCommand(host, port, "SIGNIN-USER", user, password, "", response);
+	
+	if (!strcmp(response,"OK\r\n")) {
+		//printf("User %s added\n", user);
+	}
+}
+
 void create_room(char * room_name) {
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
@@ -525,6 +536,15 @@ static void login_callback(userpass * up) {
 	add_user();
 }
 
+static void signin_callback(userpass * up) {
+
+	
+	user = strdup(gtk_entry_get_text(GTK_ENTRY(up->username)));
+	password = strdup(gtk_entry_get_text(GTK_ENTRY(up->password)));
+	check = 1;
+	signin_user();
+}
+
 static void create_room_callback(GtkWidget * entry) {
 
 	char * room_name = (char*) g_malloc(sizeof(char) * 100);
@@ -673,6 +693,7 @@ int main( int   argc,
     GtkWidget *create_e;
     GtkWidget *listrooms_b;
     GtkWidget *msg_entry;
+    GtkWidget *checkp_pop;
     
     //GTK Pointer
     
@@ -734,6 +755,8 @@ int main( int   argc,
 
     //________Added                               
     
+    //checkp_pop = gtk_message_dialog_new ();
+    
     hbox_si_su = gtk_hbox_new(FALSE,0);
     gtk_box_pack_start (GTK_BOX (vbox), hbox_si_su, TRUE, TRUE, 0);
     gtk_widget_show(hbox_si_su);
@@ -751,7 +774,7 @@ int main( int   argc,
                                      
     button_sign_in = gtk_button_new_with_label ("Sign In");
     g_signal_connect_swapped (button_sign_in, "clicked",
-			      G_CALLBACK (login_callback),										//Change this callback
+			      G_CALLBACK (signin_callback),										//Change this callback
 			      userInfo);
 			      
 														
