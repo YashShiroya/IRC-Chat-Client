@@ -29,6 +29,7 @@ GtkTreeIter iterr;
 GtkTextBuffer *buffer_m;
 GtkWidget *myMessage;
 GtkWidget *view_m;
+GtkTextIter iter_m;
 static char buffer[256];
 
 char *text_selected = (char*) g_malloc(sizeof(char) * 100);
@@ -191,10 +192,10 @@ void leave_room() {
 
 static void insert_text( GtkTextBuffer *buffer, const char * initialText )	////////////////////////////////// C R E A T E  T E X T ////////////////////////////////////
 {
-   GtkTextIter iter;
+   
  
-   gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
-   gtk_text_buffer_insert (buffer, &iter, initialText,-1);
+   gtk_text_buffer_get_iter_at_offset (buffer_m, &iter_m, 0);
+   gtk_text_buffer_insert (buffer_m, &iter_m, initialText,-1);
 }
    
 /* Create a scrolled text area that displays a "message" */
@@ -256,7 +257,8 @@ void get_messages() {
 		res = strdup("yolo\n");
 		//insert_text (gtb, res);
 		//gtk_widget_show_all (messages);
-		messages = create_text (res);
+		//buffer_m = create_text (res);
+		//gtk_widget_show_all (scrolled_window);
 	}
 	if (!strcmp(response,"OK\r\n")) {
 		//printf("User %s added\n", user);
