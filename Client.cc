@@ -919,7 +919,7 @@ int main( int   argc,
     gtk_widget_set_size_request (GTK_WIDGET (leave_b), 250, 40);
     gtk_widget_show (leave_b);
     
-    listrooms_b = gtk_button_new_with_label ("List Rooms");
+    /*listrooms_b = gtk_button_new_with_label ("List Rooms");
     g_signal_connect (listrooms_b, "clicked",
 			      G_CALLBACK (listrooms_callback),										//Change this callback
 			      NULL);													
@@ -927,7 +927,7 @@ int main( int   argc,
     gtk_widget_set_can_default (listrooms_b, TRUE);
     gtk_widget_grab_default (listrooms_b);
     gtk_widget_set_size_request (GTK_WIDGET (listrooms_b), 250, 40);
-    gtk_widget_show (listrooms_b);
+    gtk_widget_show (listrooms_b);*/
     
    //______________________________
    
@@ -951,7 +951,7 @@ int main( int   argc,
     
     
     gtk_table_attach_defaults(GTK_TABLE (table), theme_frame, 12, 14, 10, 12);
-    gtk_table_attach_defaults(GTK_TABLE (table), frame_door, 10, 14, 6, 9);
+    gtk_table_attach_defaults(GTK_TABLE (table), frame_door, 10, 14, 6, 8);
     gtk_table_attach_defaults (GTK_TABLE (table), msg_frame, 4, 10, 7, 12);
      
     GtkWidget *view;
