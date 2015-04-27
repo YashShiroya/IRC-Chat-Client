@@ -703,6 +703,7 @@ int main( int   argc,
     gtk_entry_set_max_length (GTK_ENTRY (userInfo->username), 50);
     //const gchar * text = "Username";
     //gtk_entry_set_placeholder_text (GTK_ENTRY(userInfo->username),text);
+    gtk_entry_set_text(GTK_ENTRY(userInfo->username), "Username");
     gtk_box_pack_start (GTK_BOX (vbox), userInfo->username, TRUE, TRUE, 0);
     gtk_widget_show(userInfo->username);
 	
@@ -712,7 +713,8 @@ int main( int   argc,
     userInfo->password = gtk_entry_new ();
     gtk_entry_set_max_length (GTK_ENTRY (userInfo->password), 50);
     //const gchar * text2 = "Password";
-    //gtk_entry_set_placeholder_text (GTK_ENTRY(userInfo->password),text2);   
+    //gtk_entry_set_placeholder_text (GTK_ENTRY(userInfo->password),text2); 
+    gtk_entry_set_text(GTK_ENTRY(userInfo->password), "*********");  
     gtk_entry_set_visibility (GTK_ENTRY (userInfo->password), FALSE);
     gtk_box_pack_start (GTK_BOX (vbox), userInfo->password, TRUE, TRUE, 0);
     gtk_widget_show (userInfo->password);
@@ -948,7 +950,6 @@ int main( int   argc,
     
     
     //__________GGGGGG
-    
     
     gtk_table_attach_defaults(GTK_TABLE (table), theme_frame, 12, 14, 10, 12);
     gtk_table_attach_defaults(GTK_TABLE (table), frame_door, 10, 14, 6, 8);
