@@ -381,7 +381,7 @@ static gboolean time_handler(GtkWidget *widget)
 	gtk_list_store_clear (list_messages);
 	gtk_list_store_clear (list_users);
 	update_list_rooms();
-	update_list_users();
+	
 	update_list_messages();
   }	
   	return TRUE;
@@ -603,7 +603,7 @@ static void tree_changed(GtkWidget * widget) {
     
   }
   	room_selected = strdup(text_selected);
-  	
+  	update_list_users();
   	printf("selected %s\n",text_selected);
 	g_free(text_selected);
 }
