@@ -733,16 +733,6 @@ int main( int   argc,
 
     //________Added                               
     
-                                     
-    button_sign_up = gtk_button_new_with_label ("Sign Up");
-    g_signal_connect_swapped (button_sign_up, "clicked",
-			      G_CALLBACK (gtk_widget_destroy),										//Change this callback
-			      window);													
-    gtk_box_pack_start (GTK_BOX (vbox), button_sign_up, TRUE, TRUE, 0);
-    gtk_widget_set_can_default (button_sign_up, TRUE);
-    gtk_widget_grab_default (button_sign_up);
-    gtk_widget_show (button_sign_up);
-     
     button_sign_in = gtk_button_new_with_label ("Sign In");
     g_signal_connect_swapped (button_sign_in, "clicked",
 			      G_CALLBACK (login_callback),										//Change this callback
@@ -753,6 +743,17 @@ int main( int   argc,
     gtk_widget_set_can_default (button_sign_in, TRUE);
     gtk_widget_grab_default (button_sign_in);
     gtk_widget_show (button_sign_in);
+                                     
+    button_sign_up = gtk_button_new_with_label ("Sign Out");
+    g_signal_connect_swapped (button_sign_up, "clicked",
+			      G_CALLBACK (gtk_widget_destroy),										//Change this callback
+			      window);													
+    gtk_box_pack_start (GTK_BOX (vbox), button_sign_up, TRUE, TRUE, 0);
+    gtk_widget_set_can_default (button_sign_up, TRUE);
+    gtk_widget_grab_default (button_sign_up);
+    gtk_widget_show (button_sign_up);
+     
+    
     
     gtk_table_attach_defaults(GTK_TABLE (table), login_frame, 0, 4, 0, 5); 
     
@@ -946,7 +947,7 @@ int main( int   argc,
    
     	//____GGGGGGG
 
-    hbox = gtk_hbox_new (FALSE, 0);
+    /*hbox = gtk_hbox_new (FALSE, 0);
     gtk_container_add (GTK_CONTAINER (vbox), hbox);
     gtk_widget_show (hbox);
                                                                     
@@ -957,7 +958,7 @@ int main( int   argc,
     gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
     gtk_widget_set_can_default (button, TRUE);
     gtk_widget_grab_default (button);
-    gtk_widget_show (button);
+    gtk_widget_show (button);*/
     
     
     //__________GGGGGG
