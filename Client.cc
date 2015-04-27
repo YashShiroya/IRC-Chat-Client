@@ -562,26 +562,6 @@ static void listrooms_callback() {
 	
 }
 
-
-
-//static void listusers_callback() {
-//		printf("lr callback\n");
-		
-	//	update_list_users();
-		
-	
-//}
-
-
-
-/*static void enter_callback( GtkWidget *widget,
-                            GtkWidget *entry )
-{
-  const gchar *entry_text;
-  entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
-  printf ("Entry contents: %s\n", entry_text);
-}*/
-
 static void entry_toggle_editable( GtkWidget *checkbutton,
                                    
                                    GtkWidget *entry )
@@ -972,32 +952,7 @@ int main( int   argc,
     gtk_widget_set_size_request (GTK_WIDGET (leave_b), 250, 40);
     gtk_widget_show (leave_b);
     
-    /*listrooms_b = gtk_button_new_with_label ("List Rooms");
-    g_signal_connect (listrooms_b, "clicked",
-			      G_CALLBACK (listrooms_callback),										//Change this callback
-			      NULL);													
-    gtk_box_pack_start (GTK_BOX (v_bbox2), listrooms_b, TRUE, TRUE, 0);
-    gtk_widget_set_can_default (listrooms_b, TRUE);
-    gtk_widget_grab_default (listrooms_b);
-    gtk_widget_set_size_request (GTK_WIDGET (listrooms_b), 250, 40);
-    gtk_widget_show (listrooms_b);*/
-    
-   //______________________________
-   
-    	//____GGGGGGG
 
-    /*hbox = gtk_hbox_new (FALSE, 0);
-    gtk_container_add (GTK_CONTAINER (vbox), hbox);
-    gtk_widget_show (hbox);
-                                                                    
-    button = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-    g_signal_connect_swapped (button, "clicked",
-			      G_CALLBACK (gtk_widget_destroy),
-			      window);
-    gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
-    gtk_widget_set_can_default (button, TRUE);
-    gtk_widget_grab_default (button);
-    gtk_widget_show (button);*/
     
     
     //__________GGGGGG
