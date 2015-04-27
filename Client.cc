@@ -26,6 +26,9 @@ GtkWidget *tree_view;
 GtkWidget *messages;
 GtkTextBuffer * gtb;
 GtkTreeIter iterr;
+GtkTextBuffer *buffer_m;
+GtkWidget *myMessage;
+GtkWidget *view_m;
 static char buffer[256];
 
 char *text_selected = (char*) g_malloc(sizeof(char) * 100);
@@ -132,31 +135,6 @@ int sendCommand(char * host, int port, char * command, char * user,
 	close(sock);
 }
 
-int sendCommand_message(char * h, int p, char * com, char * usr,
-		char * pswrd, char * argz, char * resp) {
-	int sock = open_client_socket( h, p);
-
-	// Send command
-	write(sock, com, strlen(com));
-	write(sock, " ", 1);
-	write(sock, usr, strlen(usr));
-	write(sock, " ", 1);
-	write(sock, pswrd, strlen(pswrd));
-	write(sock, " ", 1);
-	write(sock, argz, strlen(argz));
-	write(sock, "\r\n",2);
-
-	// Keep reading until connection is closed or MAX_REPONSE
-	int n = 0;
-	int len = 0;
-	while ((n=read(sock, resp+len, MAX_RESPONSE - len))>0) {
-		len += n;
-	}
-	resp[len - 1] = '\0';
-	printf("resp:%s\n", resp);
-
-	close(sock);
-}
 
 void printUsage()
 {
@@ -223,19 +201,18 @@ static void insert_text( GtkTextBuffer *buffer, const char * initialText )	/////
 static GtkWidget *create_text( const char * initialText )
 {
    GtkWidget *scrolled_window;
-   GtkWidget *view;
-   GtkTextBuffer *buffer;
-
-   view = gtk_text_view_new ();
-   buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+   
+   
+   view_m = gtk_text_view_new ();
+   buffer_m = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view_m));
 
    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
 		   	           GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC);
 
-   gtk_container_add (GTK_CONTAINER (scrolled_window), view);
-   insert_text (buffer, initialText);
+   gtk_container_add (GTK_CONTAINER (scrolled_window), view_m);
+   insert_text (buffer_m, initialText);
 
    gtk_widget_show_all (scrolled_window);
 
@@ -276,7 +253,7 @@ void get_messages() {
 	if(strcmp("default",room_selected) != 0) {
 		strcat(msg_get, room_selected);
 		sendCommand(host, port, "GET-MESSAGES", user, password, msg_get, response);
-		res = strdup(response);
+		res = strdup("yolo\n");
 		//insert_text (gtb, res);
 		//gtk_widget_show_all (messages);
 		messages = create_text (res);
@@ -573,12 +550,12 @@ int main( int   argc,
           char *argv[] )
 {
     strcpy(host,"localhost");
-    port = 2011;
+    port = 2408;
     GtkWidget *window;
     GtkWidget *list_r;
     GtkWidget *list_u;
     
-    GtkWidget *myMessage;
+    
     userpass * userInfo;
     
     userInfo = g_slice_new(userpass);
@@ -731,7 +708,7 @@ int main( int   argc,
    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
-    messages = create_text ("");
+    messages = create_text ("Hello!\n");
     gtk_table_attach_defaults (GTK_TABLE (table), messages, 4, 10, 0, 7);
     gtk_widget_show (messages);
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
