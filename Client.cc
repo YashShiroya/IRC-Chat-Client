@@ -131,7 +131,7 @@ int sendCommand(char * host, int port, char * command, char * user,
 		len += n;
 	}
 	response[len - 1] = '\0';
-	printf("response:%s\n", response);
+	//printf("response:%s\n", response);
 
 	close(sock);
 }
@@ -555,7 +555,7 @@ static void create_room_callback(GtkWidget * entry) {
 }
 
 static void listrooms_callback() {
-		printf("lr callback\n");
+		//printf("lr callback\n");
 		gtk_list_store_clear (list_rooms);
 		update_list_rooms();
 		
@@ -617,7 +617,7 @@ static void gtk_themer_dark(GtkWidget *widget) {
 
 static void tree_changed(GtkWidget * widget) {
 	
-	printf("Callback tree_changed\n");
+	//printf("Callback tree_changed\n");
 	gtk_list_store_clear (list_users);
 	//GtkTreeModel *model;
 	text_selected = "default\n";
@@ -635,7 +635,7 @@ static void tree_changed(GtkWidget * widget) {
   }
   	room_selected = strdup(text_selected);
   	update_list_users();
-  	printf("selected %s\n",text_selected);
+  	//printf("selected %s\n",text_selected);//_________________________________________________________ Debug 1
 	g_free(text_selected);
 }
 
