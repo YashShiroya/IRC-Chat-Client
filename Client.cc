@@ -24,9 +24,9 @@ GtkListStore * list_users;
 char * res;
 GtkTreeSelection *gts;
 GtkWidget *tree_view;
-GtkWidget *table;
 GtkWidget *messages;
 GtkTextBuffer * gtb;
+GtkTextBuffer *buffer_m;
 GtkTreeIter iterr;
 static char buffer[256];
 
@@ -201,10 +201,10 @@ static GtkWidget *create_text( const char * initialText )
 {
    GtkWidget *scrolled_window;
    GtkWidget *view;
-   GtkTextBuffer *buffer;
+   
 
    view = gtk_text_view_new ();
-   buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+   buffer_m = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
 
    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
@@ -212,7 +212,7 @@ static GtkWidget *create_text( const char * initialText )
 				   GTK_POLICY_AUTOMATIC);
 
    gtk_container_add (GTK_CONTAINER (scrolled_window), view);
-   insert_text (buffer, initialText);
+   insert_text (buffer_m, initialText);
 
    gtk_widget_show_all (scrolled_window);
    
@@ -256,9 +256,7 @@ void get_messages() {
 		res = strdup(response);
 		//insert_text (gtb, res);
 		//gtk_widget_show_all (messages);
-		messages = create_text ("HELLO");
-    gtk_table_attach_defaults (GTK_TABLE (table), messages, 4, 10, 0, 7);
-    gtk_widget_show (messages);
+		gtk_text_buffer_set_text(buffer_m, res, -1);
 		
 	}
 	if (!strcmp(response,"OK\r\n")) {
@@ -610,7 +608,7 @@ int main( int   argc,
     gtk_widget_set_size_request (GTK_WIDGET (window), 1000, 700);
 
     // Create a table to place the widgets. Use a 7x4 Grid (7 rows x 4 columns)
-    table = gtk_table_new (12, 14, TRUE);
+    GtkWidget *table = gtk_table_new (12, 14, TRUE);
     gtk_container_add (GTK_CONTAINER (window), table);
     gtk_table_set_row_spacings(GTK_TABLE (table), 20);
     gtk_table_set_col_spacings(GTK_TABLE (table), 20);
@@ -716,7 +714,7 @@ int main( int   argc,
     gtk_widget_show (messages);
    
    
-   messages = create_text ("YOLO");
+   messages = create_text ("YOLO\n");
    gtk_widget_show (messages);
    
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
