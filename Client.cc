@@ -667,6 +667,7 @@ int main( int   argc,
     GtkWidget *leave_b;
     GtkWidget *create_b;
     GtkWidget *v_bbox3;
+    GtkWidget *hbox_si_su;
     GtkWidget *msg_frame;
     GtkWidget *v_box_msg;
     GtkWidget *create_e;
@@ -733,13 +734,27 @@ int main( int   argc,
 
     //________Added                               
     
-    button_sign_in = gtk_button_new_with_label ("Sign Up | Sign In");
+    hbox_si_su = gtk_hbox_new(FALSE,0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox_si_su, TRUE, TRUE, 0);
+    
+    button_sign_in = gtk_button_new_with_label ("Sign Up");
     g_signal_connect_swapped (button_sign_in, "clicked",
 			      G_CALLBACK (login_callback),										//Change this callback
 			      userInfo);
 			      
 														
-    gtk_box_pack_start (GTK_BOX (vbox), button_sign_in, TRUE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (hbox_si_su), button_sign_in, TRUE, TRUE, 0);
+    gtk_widget_set_can_default (button_sign_in, TRUE);
+    gtk_widget_grab_default (button_sign_in);
+    gtk_widget_show (button_sign_in);
+                                     
+    button_sign_in = gtk_button_new_with_label ("Sign In");
+    g_signal_connect_swapped (button_sign_in, "clicked",
+			      G_CALLBACK (login_callback),										//Change this callback
+			      userInfo);
+			      
+														
+    gtk_box_pack_start (GTK_BOX (hbox_si_su), button_sign_in, TRUE, TRUE, 0);
     gtk_widget_set_can_default (button_sign_in, TRUE);
     gtk_widget_grab_default (button_sign_in);
     gtk_widget_show (button_sign_in);
