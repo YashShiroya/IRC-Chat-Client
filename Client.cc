@@ -21,15 +21,12 @@
 
 GtkListStore * list_rooms;
 GtkListStore * list_users;
+char * res;
 GtkTreeSelection *gts;
 GtkWidget *tree_view;
 GtkWidget *messages;
 GtkTextBuffer * gtb;
 GtkTreeIter iterr;
-GtkTextBuffer *buffer_m;
-GtkWidget *myMessage;
-GtkWidget *view_m;
-GtkTextIter iter_m;
 static char buffer[256];
 
 char *text_selected = (char*) g_malloc(sizeof(char) * 100);
@@ -192,28 +189,29 @@ void leave_room() {
 
 static void insert_text( GtkTextBuffer *buffer, const char * initialText )	////////////////////////////////// C R E A T E  T E X T ////////////////////////////////////
 {
-   
+   GtkTextIter iter;
  
-   gtk_text_buffer_get_iter_at_offset (buffer_m, &iter_m, 0);
-   gtk_text_buffer_insert (buffer_m, &iter_m, initialText,-1);
+   gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+   gtk_text_buffer_insert (buffer, &iter, initialText,-1);
 }
    
 /* Create a scrolled text area that displays a "message" */
 static GtkWidget *create_text( const char * initialText )
 {
    GtkWidget *scrolled_window;
-   
-   
-   view_m = gtk_text_view_new ();
-   buffer_m = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view_m));
+   GtkWidget *view;
+   GtkTextBuffer *buffer;
+
+   view = gtk_text_view_new ();
+   buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
 
    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
 		   	           GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC);
 
-   gtk_container_add (GTK_CONTAINER (scrolled_window), view_m);
-   insert_text (buffer_m, initialText);
+   gtk_container_add (GTK_CONTAINER (scrolled_window), view);
+   insert_text (buffer, initialText);
 
    gtk_widget_show_all (scrolled_window);
 
@@ -248,17 +246,16 @@ void get_messages() {
 	response[0] = '\0';
 	strcpy(msg_get,"");
 	strcat(msg_get,"0 ");
-	char * res;
+	
 	//gtb = gtk_text_view_get_buffer (GTK_TEXT_VIEW(messages));
 	
 	if(strcmp("default",room_selected) != 0) {
 		strcat(msg_get, room_selected);
 		sendCommand(host, port, "GET-MESSAGES", user, password, msg_get, response);
-		res = strdup("yolo\n");
+		res = strdup(response);
 		//insert_text (gtb, res);
 		//gtk_widget_show_all (messages);
-		//buffer_m = create_text (res);
-		//gtk_widget_show_all (scrolled_window);
+		messages = create_text (res);
 	}
 	if (!strcmp(response,"OK\r\n")) {
 		//printf("User %s added\n", user);
@@ -557,7 +554,7 @@ int main( int   argc,
     GtkWidget *list_r;
     GtkWidget *list_u;
     
-    
+    GtkWidget *myMessage;
     userpass * userInfo;
     
     userInfo = g_slice_new(userpass);
@@ -710,9 +707,10 @@ int main( int   argc,
    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
-    messages = create_text ("Hello!\n");
+    messages = create_text ("");
     gtk_table_attach_defaults (GTK_TABLE (table), messages, 4, 10, 0, 7);
     gtk_widget_show (messages);
+   
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
 
 	msg_frame = gtk_frame_new("Write Message");
