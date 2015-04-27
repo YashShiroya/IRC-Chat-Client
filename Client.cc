@@ -362,8 +362,8 @@ void update_list_messages() {
 	        	word[i] = '\0';
 	        	i = 0;
 				t = strdup(word);
-				gtk_list_store_append (GTK_LIST_STORE (list_users), &iter);
-        		gtk_list_store_set (GTK_LIST_STORE (list_users), &iter, 0, t, -1);
+				gtk_list_store_append (GTK_LIST_STORE (list_messages), &iter);
+        		gtk_list_store_set (GTK_LIST_STORE (list_messages), &iter, 0, t, -1);
 				
 			}
 	   }
