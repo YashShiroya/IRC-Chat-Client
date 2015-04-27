@@ -714,6 +714,8 @@ int main( int   argc,
    
    
    messages = create_text ("YOLO\n");
+   gtk_widget_show (messages);
+   
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
 
 	msg_frame = gtk_frame_new("Write Message");
