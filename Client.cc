@@ -173,7 +173,7 @@ void enter_room() {
 	char * notification = (char*) g_malloc(sizeof(char) * 200);
 	strcpy(notification,"");
 	sprintf(notification,"User %s entered %s\n", user, room_selected);
-		
+		printf(notification);
 	if(strcmp("default",room_selected) != 0) {
 		sendCommand(host, port, "ENTER-ROOM", user, password, room_selected, response);
 	}
