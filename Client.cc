@@ -587,7 +587,7 @@ static void gtk_themer_dark(GtkWidget *widget) {
 static void tree_changed(GtkWidget * widget) {
 	
 	printf("Callback tree_changed\n");
-	
+	gtk_list_store_clear (list_users);
 	//GtkTreeModel *model;
 	text_selected = "default\n";
   GtkTreeIter iter;
