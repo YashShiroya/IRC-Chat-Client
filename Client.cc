@@ -378,6 +378,7 @@ static gboolean time_handler(GtkWidget *widget)
   if (widget->window == NULL) return FALSE;
   if(check == 1) {	
 	gtk_list_store_clear (list_rooms);
+	gtk_list_store_clear (list_messages);
 	update_list_rooms();
 	update_list_messages();
   }	
