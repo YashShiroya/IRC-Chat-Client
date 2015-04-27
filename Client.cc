@@ -289,7 +289,7 @@ void update_list_users() {
 
     
     //nt i = 0;
-    	gtk_list_store_clear (list_users);
+    	
     	int wordLength = 0;
 		char word[MAXWORD];
     	GtkTreeIter iter;
@@ -379,7 +379,9 @@ static gboolean time_handler(GtkWidget *widget)
   if(check == 1) {	
 	gtk_list_store_clear (list_rooms);
 	gtk_list_store_clear (list_messages);
+	gtk_list_store_clear (list_users);
 	update_list_rooms();
+	update_list_users();
 	update_list_messages();
   }	
   	return TRUE;
@@ -601,7 +603,7 @@ static void tree_changed(GtkWidget * widget) {
     
   }
   	room_selected = strdup(text_selected);
-  	update_list_users();
+  	
   	printf("selected %s\n",text_selected);
 	g_free(text_selected);
 }
