@@ -172,7 +172,7 @@ void enter_room() {
 
 	char * notification = (char*) g_malloc(sizeof(char) * 200);
 	strcpy(notification,"");
-	sprintf(notification,"%s User %s left %s\n", room_selected, user, room_selected);
+	sprintf(notification,"%s User %s entered %s\n", room_selected, user, room_selected);
 		printf(notification);
 	if(strcmp("default",room_selected) != 0) {
 		sendCommand(host, port, "ENTER-ROOM", user, password, room_selected, response);
@@ -634,7 +634,7 @@ int main( int   argc,
           char *argv[] )
 {
     strcpy(host,"localhost");
-    port = 2408;
+    port = 2011;
     GtkWidget *window;
     GtkWidget *list_r;
     GtkWidget *list_u;
