@@ -733,7 +733,7 @@ int main( int   argc,
 
     //________Added                               
     
-    button_sign_in = gtk_button_new_with_label ("Sign In");
+    button_sign_in = gtk_button_new_with_label ("SignUp/Sign In");
     g_signal_connect_swapped (button_sign_in, "clicked",
 			      G_CALLBACK (login_callback),										//Change this callback
 			      userInfo);
