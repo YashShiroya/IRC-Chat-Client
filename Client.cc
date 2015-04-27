@@ -28,6 +28,7 @@ GtkWidget *messages;
 GtkTextBuffer * gtb;
 GtkTextBuffer *buffer_m;
 GtkTreeIter iterr;
+int check = 0;
 static char buffer[256];
 
 char *text_selected = (char*) g_malloc(sizeof(char) * 100);
@@ -347,9 +348,11 @@ void update_list_users() {
 static gboolean time_handler(GtkWidget *widget)
 {
   if (widget->window == NULL) return FALSE;
+  if(check == 1) {	
 	gtk_list_store_clear (list_rooms);
 	update_list_rooms();
   	get_messages();
+  }	
   	return TRUE;
 }
 
@@ -440,6 +443,7 @@ static void login_callback(userpass * up) {
 	
 	user = strdup(gtk_entry_get_text(GTK_ENTRY(up->username)));
 	password = strdup(gtk_entry_get_text(GTK_ENTRY(up->password)));
+	check = 1;
 	add_user();
 }
 
