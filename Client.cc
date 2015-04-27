@@ -167,6 +167,7 @@ void printUsage()
 void add_user() {
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
+	response[0] = '\0';
 	sendCommand(host, port, "ADD-USER", user, password, "", response);
 	
 	if (!strcmp(response,"OK\r\n")) {
@@ -177,6 +178,7 @@ void add_user() {
 void create_room(char * room_name) {
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
+	response[0] = '\0';
 	sendCommand(host, port, "CREATE-ROOM", user, password, room_name, response);
 	
 	if (!strcmp(response,"OK\r\n")) {
@@ -187,6 +189,8 @@ void create_room(char * room_name) {
 void enter_room() {
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
+	response[0] = '\0';
+	
 	if(strcmp("default",room_selected) != 0) {
 		sendCommand(host, port, "ENTER-ROOM", user, password, room_selected, response);
 	}
@@ -198,6 +202,7 @@ void enter_room() {
 void leave_room() {
 	// Try first to add user in case it does not exist.
 	char response[ MAX_RESPONSE ];
+	response[0] = '\0';
 	if(strcmp("default",room_selected) != 0) {
 		sendCommand(host, port, "LEAVE-ROOM", user, password, room_selected, response);
 	}
@@ -239,6 +244,7 @@ static GtkWidget *create_text( const char * initialText )
 
 void send_message(GtkWidget * message_entry) {
 	char response[ MAX_RESPONSE ];
+	response[0] = '\0';
 	strcpy(msg_room,"");
 	
 	char * sent_message = strdup(gtk_entry_get_text(GTK_ENTRY(message_entry)));
@@ -261,6 +267,7 @@ void send_message(GtkWidget * message_entry) {
 void get_messages() {
 
 	char response[ MAX_RESPONSE ];
+	response[0] = '\0';
 	strcpy(msg_get,"");
 	strcat(msg_get,"0 ");
 	char * res;
@@ -268,7 +275,7 @@ void get_messages() {
 	
 	if(strcmp("default",room_selected) != 0) {
 		strcat(msg_get, room_selected);
-		sendCommand_message(host, port, "GET-MESSAGES", user, password, msg_get, response);
+		sendCommand(host, port, "GET-MESSAGES", user, password, msg_get, response);
 		res = strdup(response);
 		//insert_text (gtb, res);
 		//gtk_widget_show_all (messages);
@@ -724,7 +731,7 @@ int main( int   argc,
    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
-    //messages = create_text ("");
+    messages = create_text ("");
     gtk_table_attach_defaults (GTK_TABLE (table), messages, 4, 10, 0, 7);
     gtk_widget_show (messages);
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
