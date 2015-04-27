@@ -260,3 +260,7 @@
  3 files changed, 4 insertions(+), 2 deletions(-)
 [master 8a73952] Make IRCclient
  3 files changed, 6 insertions(+), 4 deletions(-)
+[master fa209c1] Make IRCclient
+ 4 files changed, 3 insertions(+), 294 deletions(-)
+ delete mode 100755 IRCClient
+ delete mode 100644 IRCClient.cc
