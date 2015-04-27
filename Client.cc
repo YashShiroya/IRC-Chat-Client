@@ -214,7 +214,7 @@ static GtkWidget *create_text( const char * initialText )
    insert_text (buffer, initialText);
 
    gtk_widget_show_all (scrolled_window);
-
+   
    return scrolled_window;
 }
 
@@ -256,6 +256,7 @@ void get_messages() {
 		//insert_text (gtb, res);
 		//gtk_widget_show_all (messages);
 		messages = create_text (res);
+		
 	}
 	if (!strcmp(response,"OK\r\n")) {
 		//printf("User %s added\n", user);
@@ -711,6 +712,8 @@ int main( int   argc,
     gtk_table_attach_defaults (GTK_TABLE (table), messages, 4, 10, 0, 7);
     gtk_widget_show (messages);
    
+   
+   messages = create_text ("YOLO\n");
     // Add messages text. Use columns 0 to 4 (exclusive) and rows 4 to 7 (exclusive) 
 
 	msg_frame = gtk_frame_new("Write Message");
