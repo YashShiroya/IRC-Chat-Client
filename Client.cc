@@ -633,8 +633,16 @@ static void gtk_themer_crimson(GtkWidget *widget) {
 int main( int   argc,
           char *argv[] )
 {
-    strcpy(host,"localhost");
-    port = 2407;
+    if(argc == 3) {
+    	host = strdup(argv[1]);
+    	port = atoi(argv[2]); 
+    }
+    else {
+    	printf("Usage: ./Client <host> <port>\n Using host = localhost\n port = 2404\n");
+    	strcpy(host,"localhost");
+    	port = 2404;
+    }
+    
     GtkWidget *window;
     GtkWidget *list_r;
     GtkWidget *list_u;
