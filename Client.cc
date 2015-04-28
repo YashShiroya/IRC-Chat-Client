@@ -199,16 +199,17 @@ void leave_room() {
 	char response[ MAX_RESPONSE ];
 	response[0] = '\0';
 	
-	char * notification = (char*) g_malloc(sizeof(char) * 200);
-	strcpy(notification,"");
-	sprintf(notification,"%s has left the Room.\n", room_selected);
+	char * notification2 = (char*) g_malloc(sizeof(char) * 200);
+	strcpy(notification2,"");
+	sprintf(notification2,"%s has left the Room.\n", room_selected);
 		
 	if(strcmp("default",room_selected) != 0) {
+		sendCommand(host, port, "SEND-MESSAGE", user, password, notification2, response);	
 		sendCommand(host, port, "LEAVE-ROOM", user, password, room_selected, response);
 	}
 	//if (strcmp(response,"OK\r\n") == 0) {
 		//printf("User %s added\n", user);
-		sendCommand(host, port, "SEND-MESSAGE", user, password, notification, response);
+		
 	//}
 }
 
