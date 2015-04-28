@@ -640,10 +640,18 @@ int main( int   argc,
     }
     
     else if(argc == 2){
+    	if(strlen(argv[1]) > 5) {
+    		
+    		host = strdup(argv[1]);
+    		port = 2404;
+    		printf("Usage: ./Client Using port 2404\n");
+    		
+    	}
+    
     	strcpy(host,"localhost");
     	printf("Usage: ./Client <port>\n Using host = localhost\n");
     	port = atoi(argv[1]);
-    }
+    }	
     
     else {
     	printf("Usage: ./Client <host> <port>\n Using host = localhost\n port = 2404\n");
