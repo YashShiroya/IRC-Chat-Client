@@ -647,10 +647,11 @@ int main( int   argc,
     		printf("Usage: ./Client Using port 2404\n");
     		
     	}
-    
-    	strcpy(host,"localhost");
-    	printf("Usage: ./Client <port>\n Using host = localhost\n");
-    	port = atoi(argv[1]);
+    	else {
+    		strcpy(host,"localhost");
+    		printf("Usage: ./Client <port>\n Using host = localhost\n");
+    		port = atoi(argv[1]);
+    	}
     }	
     
     else {
