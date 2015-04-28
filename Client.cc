@@ -184,7 +184,7 @@ void enter_room() {
 	char * notification = (char*) g_malloc(sizeof(char) * 200);
 	strcpy(notification,"");
 	sprintf(notification,"%s has entered the Room.\n", room_selected);
-		printf(notification);
+		//printf(notification);
 	if(strcmp("default",room_selected) != 0) {
 		sendCommand(host, port, "ENTER-ROOM", user, password, room_selected, response);
 	}
@@ -201,7 +201,7 @@ void leave_room() {
 	
 	char * notification = (char*) g_malloc(sizeof(char) * 200);
 	strcpy(notification,"");
-	sprintf(notification,"%s User %s left %s\n", room_selected, user, room_selected);
+	sprintf(notification,"%s has left the Room.\n", room_selected);
 		
 	if(strcmp("default",room_selected) != 0) {
 		sendCommand(host, port, "LEAVE-ROOM", user, password, room_selected, response);
@@ -640,6 +640,7 @@ int main( int   argc,
     
     else if(argc == 2){
     	strcpy(host,"localhost");
+    	printf("Usage: ./Client <port>\n Using host = localhost\n");
     	port = atoi(argv[1]);
     }
     
