@@ -266,3 +266,6 @@
  delete mode 100644 IRCClient.cc
 [master 4f91f5b] Make IRCclient
  1 file changed, 4 insertions(+)
+[master 5647ac7] Make IRCclient
+ 3 files changed, 12 insertions(+), 2 deletions(-)
+ rewrite Client (74%)
