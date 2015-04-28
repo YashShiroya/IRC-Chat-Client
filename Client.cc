@@ -637,6 +637,12 @@ int main( int   argc,
     	host = strdup(argv[1]);
     	port = atoi(argv[2]); 
     }
+    
+    else if(argc == 2){
+    	strcpy(host,"localhost");
+    	port = atoi(argv[1]);
+    }
+    
     else {
     	printf("Usage: ./Client <host> <port>\n Using host = localhost\n port = 2404\n");
     	strcpy(host,"localhost");
