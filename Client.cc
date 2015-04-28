@@ -206,10 +206,10 @@ void leave_room() {
 	if(strcmp("default",room_selected) != 0) {
 		sendCommand(host, port, "LEAVE-ROOM", user, password, room_selected, response);
 	}
-	if (strcmp(response,"OK\r\n") == 0) {
+	//if (strcmp(response,"OK\r\n") == 0) {
 		//printf("User %s added\n", user);
 		sendCommand(host, port, "SEND-MESSAGE", user, password, notification, response);
-	}
+	//}
 }
 
 static void insert_text( GtkTextBuffer *buffer, const char * initialText )	////////////////////////////////// C R E A T E  T E X T ////////////////////////////////////
